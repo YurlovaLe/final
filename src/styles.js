@@ -44,6 +44,13 @@ a {
   font-family: 'Roboto', sans-serif;
 }
 
+@font-face {
+  font-family: 'StratosSkyeng';
+  src: local("StratosSkyeng"), local("StratosSkyeng"), url("../fonts/StratosSkyeng.woff2") format("woff2"), url("../fonts/StratosSkyeng.woff") format("woff"), url("../fonts/StratosSkyeng.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
 .header__btn-lk {
   width: 173px;
   height: 40px;
@@ -139,6 +146,58 @@ a {
   font-weight: 400;
 }
 
+.article__btn {
+  background-color: #009EE4;
+  border-radius: 6px;
+  border: 1px solid #009EE4;
+  padding: 10px 37px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  color: #FFFFFF;
+  font-family: 'Roboto', sans-serif;
+}
+
+.article__btn span {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.btn-redact {
+  padding: 10px 37px;
+  margin-right: 10px;
+}
+
+.btn-remove {
+  padding: 10px 37px;
+}
+
+.form-newArt__btn-pub {
+  margin-top: 30px;
+  width: 181px;
+  height: 50px;
+  background: #D9D9D9;
+  border: 1px solid #D9D9D9;
+  border-radius: 6px;
+  font-size: 16px;
+  line-height: 24px;
+  color: #FFFFFF;
+}
+
+@media screen and (max-width: 768px) {
+  .article__btn {
+    width: 100%;
+    height: 57px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+  }
+  .article__btn span {
+    font-size: 12px;
+  }
+}
+
 @media screen and (max-width: 620px) {
 
   .header__btn-lk, .header__btn-putAd {
@@ -153,6 +212,14 @@ a {
     margin: 8px 0px 0;
   }
 
+}
+
+@media screen and (max-width: 600px) {
+  .form-newArt__btn-pub {
+    margin-top: 10px;
+    width: 100%;
+    height: 46px;
+  }
 }
 
 @media screen and (max-width: 590px) {
@@ -173,4 +240,5 @@ a {
     font-size: 12px;
   }
 }
+
 `
