@@ -1,13 +1,13 @@
 import * as S from "./ProductForm.styles";
 
-export const ProductForm = ({text}) => {
+export const ProductForm = ({text, onFormClose}) => {
   return (
     <S.Wrapper>
       <S.ContainerBg>
         <S.ModalBlock>
           <S.ModalContent>
             <S.ModalTitle>{text}</S.ModalTitle>
-            <S.ModalBtnClose>
+            <S.ModalBtnClose onClick={onFormClose}>
               <S.ModalBtnCloseLine></S.ModalBtnCloseLine>
             </S.ModalBtnClose>
             <S.ModalFormNewArt id="formNewArt" action="#">

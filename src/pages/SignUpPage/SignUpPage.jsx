@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 import * as S from "./SignUpPage.styles";
 
 export const SignUpPage = () => {
@@ -16,7 +18,9 @@ export const SignUpPage = () => {
             <S.ModalInput class="modal__input first-last" type="text" name="first-last" id="first-last" placeholder="Фамилия (необязательно)"/>
             <S.ModalInput class="modal__input city" type="text" name="city" id="city" placeholder="Город (необязательно)"/>
             <S.ModalBtnSignupEnt id="SignUpEnter">
-              <S.ModalBtnSignupEntA href="../index.html">Зарегистрироваться</S.ModalBtnSignupEntA>
+              <NavLink to="/profile">
+                <S.ModalBtnSignupEntA href="../index.html">Зарегистрироваться</S.ModalBtnSignupEntA>
+              </NavLink>
             </S.ModalBtnSignupEnt>
           </S.ModalFormLogin>
         </S.ModalBlock>

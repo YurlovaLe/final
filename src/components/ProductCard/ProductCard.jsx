@@ -1,24 +1,21 @@
 import * as S from "./ProductCard.styles"
 
-export const ProductCard = () => {
+export const ProductCard = ({img, title, price, city, date, onClick}) => {
   return (
-    <S.CardsItem>
+    <S.CardsItem onClick={onClick}>
       <S.CardsCard>
         <S.CardImage>
-          <a href="/#" target="blank">
-            <S.CardImageImg src="/img/icon_01.png" alt="Alternative name"/>
-          </a>
+          <S.CardImageImg src={img} alt="Alternative name"/>
         </S.CardImage>
         <div>
-          <a href="/#" target="blank">
-            <S.CardTitle>Ракетка для большого тенниса Triumph Pro ST</S.CardTitle>
-          </a>
-          <S.CardPrice>2&nbsp;200&nbsp;₽</S.CardPrice>
-          <S.CardPlace>Санкт Петербург</S.CardPlace>
-          <S.CardDate>Сегодня в&nbsp;10:45</S.CardDate>
+          <S.CardTitle>{title}</S.CardTitle>
+          <S.CardPrice>{price}</S.CardPrice>
+          <S.CardPlace>{city}</S.CardPlace>
+          <S.CardDate>{date}</S.CardDate>
         </div>
       </S.CardsCard>
     </S.CardsItem>
   )
 }
+
 

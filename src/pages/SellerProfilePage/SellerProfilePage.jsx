@@ -2,6 +2,7 @@ import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { Footer } from "../../components/Footer/Footer";
 import { Header } from "../../components/Header/Header";
 import { Menu } from "../../components/Menu/Menu";
+import { products } from "../../helpers/products";
 import * as S from "./SellerProfilePage.styles";
 
 export const SellerProfilePage = () => {
@@ -49,7 +50,7 @@ export const SellerProfilePage = () => {
             
             <S.MainContent>
               <S.Cards>                            
-                <ProductCard />
+              {products.map(product => <ProductCard img={product.img} title={product.title} price={product.price} city={product.city} date={product.date}/>)}
               </S.Cards>                        
             </S.MainContent>    
           </S.MainContainer>

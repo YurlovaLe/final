@@ -90,6 +90,7 @@ export const MainTitle = styled.div`
   line-height: 70px;
   font-weight: 500;
   color: #000000;
+  text-align: left;
 
   @media screen and (max-width: 620px) {
     margin-bottom: 30px;

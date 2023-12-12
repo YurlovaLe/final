@@ -271,7 +271,6 @@ export const ArticleImageBarDivImg = styled.img`
   object-fit: cover;
 `;
 
-
 export const ArticleImgBarMob = styled.div`
   display: none;
 
@@ -487,4 +486,12 @@ export const ArticleBtnBlock = styled.div`
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+
+  @media screen and (max-width: 961px) {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
 `

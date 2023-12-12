@@ -185,8 +185,9 @@ a {
   color: #FFFFFF;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 961px) {
   .article__btn {
+    margin-right: 0;
     width: 100%;
     height: 57px;
     font-size: 14px;

@@ -121,6 +121,7 @@ export const MainH2 = styled.h2`
   line-height: 42px;
   color: #000000;
   margin-bottom: 30px;
+  text-align: left;
 
   @media screen and (max-width: 590px) {
     font-size: 24px;

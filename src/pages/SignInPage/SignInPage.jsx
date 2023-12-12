@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 import * as S from "./SignInPage.styles";
 
 export const SignInPage = () => {
@@ -16,12 +18,16 @@ export const SignInPage = () => {
               </S.ModalInputGroup>
 
               <S.ModalBtnGroup>
-                <S.ModalBtnEnter id="SignUpEnter">
-                  <S.ModalBtnEnterA href="../index.html">Зарегистрироваться</S.ModalBtnEnterA>
+                <S.ModalBtnEnter id="SignInEnter">
+                  <NavLink to="/profile">
+                    <S.ModalBtnEnterA href="../index.html">Войти</S.ModalBtnEnterA>
+                  </NavLink>
                 </S.ModalBtnEnter>
 
                 <S.ModalBtnSignup id="SignUpEnter">
-                  <S.ModalBtnSignupA href="../index.html">Зарегистрироваться</S.ModalBtnSignupA>
+                  <NavLink to="/signup">
+                    <S.ModalBtnSignupA href="../index.html">Зарегистрироваться</S.ModalBtnSignupA>
+                  </NavLink>
                 </S.ModalBtnSignup>
               </S.ModalBtnGroup>
             </S.ModalFormInner>

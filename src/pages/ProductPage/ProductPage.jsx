@@ -1,10 +1,41 @@
+import { NavLink } from "react-router-dom";
+import { createPortal } from "react-dom";
+import { useState } from "react";
+import { Modal } from "../../components/Modal/Modal";
+import { Reviews } from "../../components/Reviews/Reviews";
 import { Footer } from "../../components/Footer/Footer";
 import { Header } from "../../components/Header/Header";
 import { Menu } from "../../components/Menu/Menu";
+import { ProductForm } from "../../components/ProductForm/ProductForm";
 import * as S from "./ProductPage.styles";
 
 const isAuth = true;
+
 export const ProductPage = () => {
+  const [modalForm, setModalForm] = useState("");
+
+  const getModalForm = () => {
+    switch (modalForm) {
+      case "reviews":
+        return (
+          <Reviews
+            onFormClose={() => setModalForm("")}
+          />
+        )
+      
+      case "edit":
+        return (
+          <ProductForm
+            onFormClose={() => setModalForm("")}
+            text = {"Редактировать объявление"}
+          />
+        )
+      default:
+        return null;
+    }
+
+  }
+
   return (
     <S.Wrapper>
       <S.Container>
@@ -55,14 +86,14 @@ export const ProductPage = () => {
                   <S.ArticleInfo>
                     <S.ArticleDate>Сегодня в 10:45</S.ArticleDate>
                     <S.ArticleCity>Санкт-Петербург</S.ArticleCity>
-                    <S.ArticleLink href="#/" target="_blank" rel="">23 отзыва</S.ArticleLink>
+                    <S.ArticleLink rel="" onClick={() => setModalForm("reviews")}>23 отзыва</S.ArticleLink>
                   </S.ArticleInfo>
                   <S.ArticlePrice>2 200 ₽</S.ArticlePrice>
                   { isAuth ? 
-                    (<div class="article__btn-block">
-                      <button class="article__btn btn-redact btn-hov02">Редактировать</button>
+                    (<S.ArticleBtnBlock>
+                      <button class="article__btn btn-redact btn-hov02" onClick={() => {setModalForm("edit")}}>Редактировать</button>
                       <button class="article__btn btn-remove btn-hov02">Снять с публикации</button>
-                    </div>) 
+                    </S.ArticleBtnBlock>) 
                     : (
                         <button class="article__btn btn-hov02">
                           Показать&nbsp;телефон <span> 8&nbsp;905&nbsp;ХХХ&nbsp;ХХ&nbsp;ХХ </span>
@@ -74,7 +105,9 @@ export const ProductPage = () => {
                       <S.AuthorImageImg src="" alt=""/>
                     </S.AuthorImage>
                     <S.AuthorCont>
-                      <S.AuthorName>Кирилл</S.AuthorName>
+                      <NavLink to="/seller-profile">
+                        <S.AuthorName>Кирилл</S.AuthorName>
+                      </NavLink>
                       <S.AuthorAbout>Продает товары с августа 2021</S.AuthorAbout>
                     </S.AuthorCont>
                   </S.ArticleAuthor>
@@ -91,6 +124,10 @@ export const ProductPage = () => {
         </S.Main>
         <Footer />
       </S.Container>
+      {createPortal(
+        <Modal isOpen={modalForm}>{getModalForm()}</Modal>,
+        document.body
+      )}
     </S.Wrapper>
   )
 }
