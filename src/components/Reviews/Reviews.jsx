@@ -1,35 +1,9 @@
-import * as S from "./Reviews.styles"
+import { publicationDate } from "../../helpers/publicationDate"
 import { Review } from "../Review/Review"
 
+import * as S from "./Reviews.styles"
 
-const reviews = [
-  {
-    name: 'Олег',
-    date: '14 августа',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-  },
-
-  {
-    name: 'Олег',
-    date: '14 августа',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-  },
-
-  {
-    name: 'Олег',
-    date: '14 августа',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-  },
-
-  {
-    name: 'Олег',
-    date: '14 августа',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-  }
-
-]
-
-export const Reviews = ({onFormClose}) => {
+export const Reviews = ({onFormClose, reviews}) => {
   return (
     
       <S.Wrapper>
@@ -43,13 +17,13 @@ export const Reviews = ({onFormClose}) => {
               <S.ModalScroll>
                 <S.ModalFormNewArt id="formNewArt" action="#">
                   <S.FormNewArtBlock>
-                    <S.FormNewArtLabel for="text">Добавить отзыв</S.FormNewArtLabel>
+                    <S.FormNewArtLabel htmlFor="text">Добавить отзыв</S.FormNewArtLabel>
                     <S.FormNewArtArea name="text" id="formArea" cols="auto" rows="5" placeholder="Введите описание"></S.FormNewArtArea>
                   </S.FormNewArtBlock>
-                  <button class="form-newArt__btn-pub btn-hov02" id="btnPublish">Опубликовать</button>
+                  <button className="form-newArt__btn-pub btn-hov02" id="btnPublish">Опубликовать</button>
                 </S.ModalFormNewArt>
                 <S.ModalReviews>
-                  {reviews.map((review) => <Review name={review.name} date={review.date} text={review.text}/>)}
+                  {reviews.map((review) => <Review key={review.id} name={review.author.name} date={publicationDate(review.created_on).slice(0, publicationDate(review.created_on).length-8)} text={review.text} img={review.avatar}/>)}
                 </S.ModalReviews>
               </S.ModalScroll>
             </S.ModalContent>

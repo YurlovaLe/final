@@ -1,11 +1,36 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { Footer } from "../../components/Footer/Footer";
 import { Header } from "../../components/Header/Header";
 import { Menu } from "../../components/Menu/Menu";
-import { products } from "../../helpers/products";
+import { sellsFromDate, publicationDate } from "../../helpers/publicationDate";
+import { getProducts } from "../../api";
+
 import * as S from "./SellerProfilePage.styles";
 
-export const SellerProfilePage = () => {
+export const SellerProfilePage = ({sellerId}) => {
+  const [productsList, setProductsList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [phoneButton, setPhoneButton] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getProducts().then((data) => {
+      setProductsList(data);
+      setIsLoading(false);
+    })
+  }, []);
+
+  const sellerProducts = productsList.filter((product) => product.user.id === sellerId);
+
+  const seller = sellerProducts.find((item) => item.user.id === sellerId)?.user;
+  console.log(seller);
+
+  if (isLoading) {
+    return;
+  }
+
   return (
     <S.Wrapper>
       <S.Container>
@@ -21,15 +46,15 @@ export const SellerProfilePage = () => {
                     <S.SellerLeft>
                       <S.SellerImg>
                         <a href="/" target="_self">
-                          <S.SellerImageImg src="#/" alt=""/>
+                          <S.SellerImageImg src={`http://localhost:8090/${seller.avatar}`} alt=""/>
                         </a>
                       </S.SellerImg>
                     </S.SellerLeft>
 
                     <S.SellerRight>
-                      <S.SellerTitle>Кирилл Матвеев</S.SellerTitle>
-                      <S.SellerCity>Санкт-Петербург</S.SellerCity>
-                      <S.SellerInformation>Продает товары с августа 2021</S.SellerInformation>
+                      <S.SellerTitle>{seller.name}</S.SellerTitle>
+                      <S.SellerCity>{seller.city}</S.SellerCity>
+                      <S.SellerInformation>{sellsFromDate(seller.sells_from)}</S.SellerInformation>
                       <S.SellerImgMobBlock>
                         <S.SellerImgMob>
                           <a href="/" target="_self">
@@ -38,8 +63,8 @@ export const SellerProfilePage = () => {
                         </S.SellerImgMob>
                       </S.SellerImgMobBlock>
                     
-                      <button class="seller__btn btn-hov02">Показать&nbsp;телефон
-                        <span>8&nbsp;905&nbsp;ХХХ&nbsp;ХХ&nbsp;ХХ</span>
+                      <button className="seller__btn btn-hov02" onClick={() => setPhoneButton('show')}>
+                        {phoneButton ? "Телефон" : "Показать телефон"} <span> {phoneButton ? seller.phone : `${seller.phone.slice(0, 5)} XXXXXXX`} </span>
                       </button>
                     </S.SellerRight>
                   </S.ProfileSellSeller>
@@ -50,7 +75,15 @@ export const SellerProfilePage = () => {
             
             <S.MainContent>
               <S.Cards>                            
-              {products.map(product => <ProductCard img={product.img} title={product.title} price={product.price} city={product.city} date={product.date}/>)}
+                {sellerProducts.map(product =>
+                  <ProductCard 
+                  key={product.id}
+                  img={product.images[0]?.url}
+                  title={product.title}
+                  price={product.price}
+                  city={product.user.city}
+                  date={publicationDate(product.created_on)}
+              />)}
               </S.Cards>                        
             </S.MainContent>    
           </S.MainContainer>

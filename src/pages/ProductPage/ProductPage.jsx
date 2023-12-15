@@ -1,18 +1,44 @@
-import { NavLink } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { createPortal } from "react-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal } from "../../components/Modal/Modal";
 import { Reviews } from "../../components/Reviews/Reviews";
 import { Footer } from "../../components/Footer/Footer";
 import { Header } from "../../components/Header/Header";
 import { Menu } from "../../components/Menu/Menu";
 import { ProductForm } from "../../components/ProductForm/ProductForm";
-import * as S from "./ProductPage.styles";
+import { publicationDate, sellsFromDate } from "../../helpers/publicationDate"
+import {quantityReviews} from "../../helpers/products"
+import { getComments, getProduct } from "../../api";
 
-const isAuth = true;
+import * as S from "./ProductPage.styles";
+import { SellerProfilePage } from "../SellerProfilePage/SellerProfilePage";
+
+const isAuth = false;
 
 export const ProductPage = () => {
+  const { productId } = useParams();
+  const [product, setProduct] = useState('');
+  const [comments, setComments] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [phoneButton, setPhoneButton] = useState('');
+
   const [modalForm, setModalForm] = useState("");
+
+  useEffect(() => {
+    getProduct(productId).then((data) => {
+      setProduct(data);
+      setIsLoading(false);
+    })
+  }, []);
+  console.log(product);
+
+  useEffect(() => {
+    getComments(productId).then((data) => {
+      setComments(data);
+    })
+  }, []);
+  console.log(comments);
 
   const getModalForm = () => {
     switch (modalForm) {
@@ -20,6 +46,7 @@ export const ProductPage = () => {
         return (
           <Reviews
             onFormClose={() => setModalForm("")}
+            reviews={comments}
           />
         )
       
@@ -30,10 +57,21 @@ export const ProductPage = () => {
             text = {"Редактировать объявление"}
           />
         )
+
+      case "seller":
+        return (
+          <SellerProfilePage
+            sellerId={product.user.id}
+          />
+        )
       default:
         return null;
     }
 
+  }
+
+  if (isLoading) {
+    return;
   }
 
   return (
@@ -49,27 +87,16 @@ export const ProductPage = () => {
               <S.ArticleLeft>
                 <S.ArticleFillImg>
                   <S.ArticleImg>                                        
-                    <S.ArticleImageImg src="/" alt=""/>                                        
+                    <S.ArticleImageImg src={product.images[0] ? `http://localhost:8090/${product.images[0].url}` : "/"} alt=""/>                                        
                   </S.ArticleImg>                                    
                   <S.ArticleImgBar>
-                    <S.ArticleImgBarDiv>
-                      <S.ArticleImageBarDivImg src="/" alt=""/>
-                    </S.ArticleImgBarDiv>
-                    <S.ArticleImgBarDiv>
-                      <S.ArticleImageBarDivImg src="/" alt=""/>
-                    </S.ArticleImgBarDiv>
-                    <S.ArticleImgBarDiv>
-                      <S.ArticleImageBarDivImg src="/" alt=""/>
-                    </S.ArticleImgBarDiv>
-                    <S.ArticleImgBarDiv>
-                      <S.ArticleImageBarDivImg src="/" alt=""/>
-                    </S.ArticleImgBarDiv>
-                    <S.ArticleImgBarDiv>
-                      <S.ArticleImageBarDivImg src="" alt=""/>
-                    </S.ArticleImgBarDiv>
-                    <S.ArticleImgBarDiv>
-                      <S.ArticleImageBarDivImg src="" alt=""/>
-                    </S.ArticleImgBarDiv>
+                    {product.images.map((image) =>
+                      (
+                        <S.ArticleImgBarDiv key={product.id}>
+                          <S.ArticleImageBarDivImg src={`http://localhost:8090/${image.url}`} alt=""/>
+                        </S.ArticleImgBarDiv>
+                      )
+                    )}
                   </S.ArticleImgBar>
                   <S.ArticleImgBarMob>
                     <S.ImgBarMobCircleActive></S.ImgBarMobCircleActive>
@@ -82,21 +109,21 @@ export const ProductPage = () => {
               </S.ArticleLeft>
               <S.ArticleRight>
                 <S.ArticleBlock>
-                  <S.ArticleTitle>Ракетка для большого тенниса Triumph Pro STС Б/У</S.ArticleTitle>
+                  <S.ArticleTitle>{product.title}</S.ArticleTitle>
                   <S.ArticleInfo>
-                    <S.ArticleDate>Сегодня в 10:45</S.ArticleDate>
-                    <S.ArticleCity>Санкт-Петербург</S.ArticleCity>
-                    <S.ArticleLink rel="" onClick={() => setModalForm("reviews")}>23 отзыва</S.ArticleLink>
+                    <S.ArticleDate>{publicationDate(product.created_on)}</S.ArticleDate>
+                    <S.ArticleCity>{product.user.city}</S.ArticleCity>
+                    <S.ArticleLink rel="" onClick={() => setModalForm("reviews")}>{quantityReviews(comments.length)}</S.ArticleLink>
                   </S.ArticleInfo>
-                  <S.ArticlePrice>2 200 ₽</S.ArticlePrice>
+                  <S.ArticlePrice>{product.price} ₽</S.ArticlePrice>
                   { isAuth ? 
                     (<S.ArticleBtnBlock>
-                      <button class="article__btn btn-redact btn-hov02" onClick={() => {setModalForm("edit")}}>Редактировать</button>
-                      <button class="article__btn btn-remove btn-hov02">Снять с публикации</button>
+                      <button className="article__btn btn-redact btn-hov02" onClick={() => setModalForm("edit")}>Редактировать</button>
+                      <button className="article__btn btn-remove btn-hov02">Снять с публикации</button>
                     </S.ArticleBtnBlock>) 
                     : (
-                        <button class="article__btn btn-hov02">
-                          Показать&nbsp;телефон <span> 8&nbsp;905&nbsp;ХХХ&nbsp;ХХ&nbsp;ХХ </span>
+                        <button className="article__btn btn-hov02" onClick={() => setPhoneButton('show')}>
+                          {phoneButton ? "Телефон" : "Показать телефон"} <span> {phoneButton ? product.user.phone : `${product.user.phone.slice(0, 5)} XXXXXXX`} </span>
                         </button>
                       )
                   }
@@ -105,10 +132,8 @@ export const ProductPage = () => {
                       <S.AuthorImageImg src="" alt=""/>
                     </S.AuthorImage>
                     <S.AuthorCont>
-                      <NavLink to="/seller-profile">
-                        <S.AuthorName>Кирилл</S.AuthorName>
-                      </NavLink>
-                      <S.AuthorAbout>Продает товары с августа 2021</S.AuthorAbout>
+                      <S.AuthorName onClick={() => setModalForm("seller")}>{product.user.name}</S.AuthorName>
+                      <S.AuthorAbout>{sellsFromDate(product.user.sells_from)}</S.AuthorAbout>
                     </S.AuthorCont>
                   </S.ArticleAuthor>
                 </S.ArticleBlock>
@@ -118,7 +143,7 @@ export const ProductPage = () => {
           <S.MainContainer>
             <S.MainTitle>Описание товара</S.MainTitle>
             <S.MainContent>
-              <S.MainText>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</S.MainText>                          
+              <S.MainText>{product.description}</S.MainText>                          
             </S.MainContent>             
           </S.MainContainer>
         </S.Main>

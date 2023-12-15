@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-export const LogoMobLink = styled.a`
+export const LogoMobLink = styled.div`
   @media screen and (max-width: 620px) {
     display: block;
     width: 32px;

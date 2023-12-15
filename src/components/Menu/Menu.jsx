@@ -6,10 +6,10 @@ export const Menu = () => {
   return (
     <S.MainMenu>
       <S.MenuLogoLink href="/">
-        <S.MenuLogoImg src="img/logo.png" alt="logo"/>
+        <S.MenuLogoImg src="/img/logo.png" alt="logo"/>
       </S.MenuLogoLink>
       <S.MenuForm action="#">
-        <button class="menu__btn btn-hov02" id="btnGoBack" onClick={() => navigate(`/`)}>Вернуться на&nbsp;главную</button>
+        <button className="menu__btn btn-hov02" id="btnGoBack" onClick={() => navigate(`/`)}>Вернуться на&nbsp;главную</button>
       </S.MenuForm>
     </S.MainMenu>
   )

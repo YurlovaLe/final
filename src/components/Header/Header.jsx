@@ -15,8 +15,8 @@ export const Header = () => {
           </S.LogoMobLink>
         </NavLink>
         </S.HeaderLogo>
-        <button class="header__btn-putAd btn-hov01" id="btputAd" onClick={() => navigate(`/new-product`)}>Разместить объявление</button>
-        <button class="header__btn-lk btn-hov01" id="btnlk" onClick={() => navigate(`/profile`)}>Личный кабинет</button>
+        <button className="header__btn-putAd btn-hov01" id="btputAd" onClick={() => navigate(`/new-product`)}>Разместить объявление</button>
+        <button className="header__btn-lk btn-hov01" id="btnlk" onClick={() => navigate(`/profile`)}>Личный кабинет</button>
       </S.HeaderNav>
     </S.Header>
   )

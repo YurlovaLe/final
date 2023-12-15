@@ -1,57 +1,9 @@
-export const products = [
-  {
-    img: '/img/icon_01.png',
-    title: 'Ракетка для большого тенниса Triumph Pro ST',
-    price: '2 200 ₽',
-    city: 'Санкт Петербург',
-    date: 'Сегодня в &nbsp;10:45',
-  },
-
-  {
-    img: '/img/icon_01.png',
-    title: 'Ракетка для большого тенниса Triumph Pro ST',
-    price: '2 200 ₽',
-    city: 'Санкт Петербург',
-    date: 'Сегодня в &nbsp;10:45',
-  },
-
-  {
-    img: '/img/icon_01.png',
-    title: 'Ракетка для большого тенниса Triumph Pro ST',
-    price: '2 200 ₽',
-    city: 'Санкт Петербург',
-    date: 'Сегодня в &nbsp;10:45',
-  },
-
-  {
-    img: '/img/icon_01.png',
-    title: 'Ракетка для большого тенниса Triumph Pro ST',
-    price: '2 200 ₽',
-    city: 'Санкт Петербург',
-    date: 'Сегодня в &nbsp;10:45',
-  },
-
-  {
-    img: '/img/icon_01.png',
-    title: 'Ракетка для большого тенниса Triumph Pro ST',
-    price: '2 200 ₽',
-    city: 'Санкт Петербург',
-    date: 'Сегодня в &nbsp;10:45',
-  },
-
-  {
-    img: '/img/icon_01.png',
-    title: 'Ракетка для большого тенниса Triumph Pro ST',
-    price: '2 200 ₽',
-    city: 'Санкт Петербург',
-    date: 'Сегодня в &nbsp;10:45',
-  },
-
-  {
-    img: '/img/icon_01.png',
-    title: 'Ракетка для большого тенниса Triumph Pro ST',
-    price: '2 200 ₽',
-    city: 'Санкт Петербург',
-    date: 'Сегодня в &nbsp;10:45',
+export const quantityReviews = (quantity) => {
+  if ((quantity%10 >= 2 && quantity%10 <= 4) && !(quantity >= 12 && quantity <= 14)) {
+    return (`${quantity} отзыва`)
+  } else if (quantity&10 === 1 && quantity !== 11) {
+    return (`${quantity} отзыв`)
+  } else {
+    return (`${quantity} отзывов`)
   }
-]
+};

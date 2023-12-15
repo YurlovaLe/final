@@ -25,7 +25,7 @@ export const AppRoutes = () => {
           </ProtectedRoute>
         } />
       <Route path="/seller-profile" element={<SellerProfilePage />} />
-      <Route path="/product" element={<ProductPage />} />
+      <Route path="/product/:productId" element={<ProductPage />} />
       <Route path="/new-product" element={<NewProductPage />} />
       <Route path="/reviews" element={<Reviews />} />
     </Routes>

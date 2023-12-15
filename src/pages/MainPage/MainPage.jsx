@@ -3,20 +3,24 @@ import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { Footer } from "../../components/Footer/Footer";
 import { publicationDate } from "../../helpers/publicationDate"
 import { getProducts } from "../../api";
-import * as S from "./MainPage.styles";
 import { useEffect, useState } from "react";
+import { useGetProductsQuery } from "../../productsApi";
+
+import * as S from "./MainPage.styles";
 
 export const MainPage = () => {
   const navigate = useNavigate();
   const [productsList, setProductsList] = useState([]);
   const [searchValue, setSearchValue] = useState('');
 
+  const {data: rtkProducts=[]} = useGetProductsQuery();
+  console.log(rtkProducts);
+
   useEffect(() => {
     getProducts().then((data) => {
       setProductsList(data);
     })
   }, []);
-  console.log(productsList);
 
   const filtredProductsList = productsList.filter((product) => {
     return (
@@ -65,7 +69,7 @@ export const MainPage = () => {
                     price={product.price}
                     city={product.user.city}
                     date={publicationDate(product.created_on)}
-                    onClick = {() => navigate(`/product`)}
+                    onClick = {() => navigate(`/product/${product.id}`)}
                   />)}
               </S.Cards>                        
             </S.MainContent>

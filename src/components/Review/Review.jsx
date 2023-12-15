@@ -1,13 +1,13 @@
 import * as S from "./Review.styles"
 
-export const Review = ({name, date, text}) => {
+export const Review = ({name, date, text, img}) => {
 
   return (
     <S.ReviewsReview>
       <S.ReviewsItem>
         <S.ReviewsLeft>
           <S.ReviewsImage>
-            <S.ReviewsImageImg src="/" alt=""/>
+            <S.ReviewsImageImg src={img ? `http://localhost:8090/${img}` : '/'} alt=""/>
           </S.ReviewsImage>
         </S.ReviewsLeft>
         <S.ReviewsRight>

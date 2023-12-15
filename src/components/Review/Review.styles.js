@@ -4,12 +4,12 @@ export const ReviewsReview = styled.div`
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-align: flex-start;;
+  -ms-flex-align: flex-start;;
+  align-items: flex-start;;
+  -webkit-box-pack: flex-start;;
+  -ms-flex-pack: flex-start;;
+  justify-content: flex-start;;
   margin: 15px 0;
 `
 
@@ -19,14 +19,14 @@ export const ReviewsItem = styled.div`
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
   -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
+  -ms-flex-align: start;
+  align-items: flex-start;
   -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
 `
 
 export const ReviewsLeft = styled.div`

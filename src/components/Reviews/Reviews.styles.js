@@ -322,6 +322,7 @@ export const FormNewArtArea = styled.textarea`
 `
 
 export const ModalReviews = styled.div`
+  
   width: 100%;
   height: 495px;
 `
