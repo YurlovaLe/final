@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { createPortal } from "react-dom";
 import { useState, useEffect } from "react";
 import { Modal } from "../../components/Modal/Modal";
@@ -12,11 +12,12 @@ import {quantityReviews} from "../../helpers/products"
 import { getComments, getProduct } from "../../api";
 
 import * as S from "./ProductPage.styles";
-import { SellerProfilePage } from "../SellerProfilePage/SellerProfilePage";
 
 const isAuth = false;
 
 export const ProductPage = () => {
+  const navigate = useNavigate();
+
   const { productId } = useParams();
   const [product, setProduct] = useState('');
   const [comments, setComments] = useState('');
@@ -55,13 +56,6 @@ export const ProductPage = () => {
           <ProductForm
             onFormClose={() => setModalForm("")}
             text = {"Редактировать объявление"}
-          />
-        )
-
-      case "seller":
-        return (
-          <SellerProfilePage
-            sellerId={product.user.id}
           />
         )
       default:
@@ -132,7 +126,7 @@ export const ProductPage = () => {
                       <S.AuthorImageImg src="" alt=""/>
                     </S.AuthorImage>
                     <S.AuthorCont>
-                      <S.AuthorName onClick={() => setModalForm("seller")}>{product.user.name}</S.AuthorName>
+                      <S.AuthorName onClick={() => navigate(`/seller-profile/${product.user.id}`)}>{product.user.name}</S.AuthorName>
                       <S.AuthorAbout>{sellsFromDate(product.user.sells_from)}</S.AuthorAbout>
                     </S.AuthorCont>
                   </S.ArticleAuthor>

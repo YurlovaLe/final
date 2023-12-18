@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { Footer } from "../../components/Footer/Footer";
 import { Header } from "../../components/Header/Header";
@@ -9,23 +9,24 @@ import { getProducts } from "../../api";
 
 import * as S from "./SellerProfilePage.styles";
 
-export const SellerProfilePage = ({sellerId}) => {
+export const SellerProfilePage = () => {
   const [productsList, setProductsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [phoneButton, setPhoneButton] = useState('');
-  const navigate = useNavigate();
 
+  const { sellerId } = useParams();
+  const navigate = useNavigate();
+  
   useEffect(() => {
     getProducts().then((data) => {
       setProductsList(data);
-      setIsLoading(false);
-    })
+    setIsLoading(false);
+  })
   }, []);
 
-  const sellerProducts = productsList.filter((product) => product.user.id === sellerId);
+  const sellerProducts = productsList.filter((product) => product.user.id === +sellerId);
 
-  const seller = sellerProducts.find((item) => item.user.id === sellerId)?.user;
-  console.log(seller);
+  const seller = sellerProducts.find((item) => item.user.id === +sellerId)?.user;
 
   if (isLoading) {
     return;
@@ -46,7 +47,7 @@ export const SellerProfilePage = ({sellerId}) => {
                     <S.SellerLeft>
                       <S.SellerImg>
                         <a href="/" target="_self">
-                          <S.SellerImageImg src={`http://localhost:8090/${seller.avatar}`} alt=""/>
+                        <S.SellerImageImg src={`http://localhost:8090/${seller.avatar}`} alt=""/>
                         </a>
                       </S.SellerImg>
                     </S.SellerLeft>
@@ -83,6 +84,7 @@ export const SellerProfilePage = ({sellerId}) => {
                   price={product.price}
                   city={product.user.city}
                   date={publicationDate(product.created_on)}
+                  onClick = {() => navigate(`/product/${product.id}`)}
               />)}
               </S.Cards>                        
             </S.MainContent>    

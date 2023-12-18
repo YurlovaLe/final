@@ -106,11 +106,11 @@ export async function getComments(productId) {
   return data; 
 }
 
-export async function getPersonalProducts() {
-
+export async function getPersonalProducts(token) {
   const response = await fetch(`http://localhost:8090/ads/me`, {
     method: "GET",
     headers: {
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
   });

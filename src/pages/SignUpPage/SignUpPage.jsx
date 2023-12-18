@@ -1,14 +1,29 @@
-import { handleRegisterApi } from "../../api";
+import { useState } from "react";
+//import { handleRegisterApi } from "../../api";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { useRegisterUserMutation } from "../../authApi";
+import { setUser } from "../../slices/authSlice";
 
 import * as S from "./SignUpPage.styles";
-import { useState } from "react";
 
 export const SignUpPage = () => {
   
 const [formValues, setFormValues] = useState({});
-const [error, setError] = useState('');
+//const [error, setError] = useState('');
 const [isSubmiting, setIsSubmiting] = useState(false);
+const dispatch = useDispatch();
+
+const [
+  registerUser,
+  {
+    data,
+    isSuccess,
+    isError,
+    error,
+  }
+ ] = useRegisterUserMutation();
 
 const navigate = useNavigate();
 
@@ -16,34 +31,57 @@ const handleRegister = async (event) => {
   event.preventDefault();
 
   if (!formValues.fieldEmail || !formValues.fieldPassword) {
-    setError('Укажите почту/пароль');
+    //setError('Укажите почту/пароль');
     return;
   }
 
   if (formValues.password!==formValues.repeatPassword) {
-    setError('Пароли не совпадают');
+    //setError('Пароли не совпадают');
     return;
   }
 
-  setIsSubmiting(true);
-  setError('');
-
-  handleRegisterApi({ 
+  const { data } = await registerUser({ 
     email: formValues.fieldEmail,
     password: formValues.fieldPassword, 
     name: formValues.fieldName, 
     surname: formValues.fieldSurname, 
     city: formValues.fieldCity
-  })
-    .then((user) => {
-      setIsSubmiting(false);
-      console.log(user);
-      navigate('/profile')
-    })
-    .catch((error) => {
-      setError(error.message);
-      setIsSubmiting(false);
-    });
+  });
+
+  if (isSuccess) {
+    console.log(data);
+    // setError('Укажите почту/пароль');
+    dispatch(setUser({
+      email: formValues.fieldEmail,
+      accessToken: data.access_token,
+      refreshToken: data.refresh_token
+    }));
+    navigate('/profile');
+    return;
+  }
+
+  console.log('fail', data, error);
+
+  //setIsSubmiting(true);
+  //setError('');
+
+
+  // handleRegisterApi({ 
+  //   email: formValues.fieldEmail,
+  //   password: formValues.fieldPassword, 
+  //   name: formValues.fieldName, 
+  //   surname: formValues.fieldSurname, 
+  //   city: formValues.fieldCity
+  // })
+  //   .then((user) => {
+  //     setIsSubmiting(false);
+  //     console.log(user);
+  //     navigate('/profile')
+  //   })
+  //   .catch((error) => {
+  //     setError(error.message);
+  //     setIsSubmiting(false);
+  //   });
 };
 
   return (

@@ -1,38 +1,68 @@
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import {handleLoginApi} from "../../api"
+import { useDispatch } from "react-redux";
+
+import { useLoginUserMutation } from "../../authApi";
+import { setUser } from "../../slices/authSlice";
 
 import * as S from "./SignInPage.styles";
+
+
+const initialState = {
+  email: "",
+  password: "",
+}
 
 export const SignInPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [formError, setFormError] = useState('');
   const [isSubmiting, setIsSubmiting] = useState(false);
+  const dispatch = useDispatch();
+
+  const [
+    loginUser,
+    {
+      data,
+      isSuccess,
+      isError,
+      error,
+    }
+   ] = useLoginUserMutation();
 
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    if (!email || !password) {
-      setError('Укажите почту/пароль');
-      return;
+    if (email && password) {
+      await loginUser({ email, password });
+    } else {
+      setFormError('Укажите почту/пароль');
+      console.log(formError);
     }
-    
-    setIsSubmiting(true);
-
-    handleLoginApi({ email, password })
-      .then((user) => {
-        setIsSubmiting(false);
-        console.log(user);
-        navigate('/profile')
-      })
-      .catch((error) => {
-        setIsSubmiting(false);
-        setError(error.message);
-      });
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(setUser({
+        email: email,
+        accessToken: data.access_token,
+        refreshToken: data.refresh_token
+      }));
+      navigate('/profile');
+      console.log('sucsess', data);
+    } else {
+    console.log('fail', data);
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) {
+      setFormError(error.data.error);
+      console.log(formError);
+    }
+  }, [isError]);
 
   return (
     <S.Wrapper>

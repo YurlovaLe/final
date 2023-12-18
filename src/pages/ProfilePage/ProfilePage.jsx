@@ -1,19 +1,23 @@
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { Footer } from "../../components/Footer/Footer";
 import { Header } from "../../components/Header/Header";
 import { Menu } from "../../components/Menu/Menu";
 import { useEffect, useState } from "react";
 import { getPersonalProducts } from "../../api";
+import { selectAuth } from "../../slices/authSlice";
+
 import { publicationDate } from "../../helpers/publicationDate";
 import * as S from "./ProfilePage.styles";
 
 export const ProfilePage = () => {
+  const { accessToken } = useSelector(selectAuth);
   const navigate = useNavigate();
   const [productsList, setProductsList] = useState([]);
 
   useEffect(() => {
-    getPersonalProducts().then((data) => {
+    getPersonalProducts(accessToken).then((data) => {
       setProductsList(data);
     });
   }, []);
