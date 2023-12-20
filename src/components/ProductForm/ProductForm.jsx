@@ -1,6 +1,21 @@
+import { useState } from "react";
 import * as S from "./ProductForm.styles";
 
-export const ProductForm = ({text, onFormClose}) => {
+export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = '', previousDescription='', previousPrice }) => {
+
+  const [title, setTitle] = useState(previousTitle);
+  const [description, setDescription] = useState(previousDescription);
+  const [price, setPrice] = useState(previousPrice);
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+
+    const data = {title, description, price}
+    onFormSubmit(data);
+    
+  }
+
+
   return (
     <S.Wrapper>
       <S.ContainerBg>
@@ -10,24 +25,28 @@ export const ProductForm = ({text, onFormClose}) => {
             <S.ModalBtnClose onClick={onFormClose}>
               <S.ModalBtnCloseLine></S.ModalBtnCloseLine>
             </S.ModalBtnClose>
-            <S.ModalFormNewArt id="formNewArt" action="#">
+            <S.ModalFormNewArt id="formNewArt" onSubmit={submitHandler}>
               <S.FormNewArtBlock>
-                <S.FormNewArtLabel for="name">Название</S.FormNewArtLabel>
+                <S.FormNewArtLabel htmlFor="name">Название</S.FormNewArtLabel>
                 <S.FormNewArtInput
                   type="text"
                   name="name"
                   id="formName"
                   placeholder="Введите название"
+                  value={title}
+                  onChange={(event) => setTitle(event.target.value)}
                 />
               </S.FormNewArtBlock>
               <S.FormNewArtBlock>
-                <S.FormNewArtLabel for="text">Описание</S.FormNewArtLabel>
+                <S.FormNewArtLabel htmlFor="text">Описание</S.FormNewArtLabel>
                 <S.FormNewArtArea
                   name="text"
                   id="formArea"
                   cols="auto"
                   rows="10"
                   placeholder="Введите описание"
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
                 ></S.FormNewArtArea>
               </S.FormNewArtBlock>
               <S.FormNewArtBlock>
@@ -59,15 +78,17 @@ export const ProductForm = ({text, onFormClose}) => {
                 </S.FormNewArtBarImg>
               </S.FormNewArtBlock>
               <S.BlockPrice>
-                <S.FormNewArtLabel for="price">Цена</S.FormNewArtLabel>
+                <S.FormNewArtLabel htmlFor="price">Цена</S.FormNewArtLabel>
                 <S.FormNewArtInputPrice
                   type="text"
                   name="price"
                   id="formName"
+                  value={price}
+                  onChange={(event) => setPrice(event.target.value)}
                 />
                 <S.FormNewArtInputPriceCover>&#x20BD;</S.FormNewArtInputPriceCover>
               </S.BlockPrice>
-              <button class="form-newArt__btn-pub btn-hov02" id="btnPublish">
+              <button className="form-newArt__btn-pub btn-hov02" id="btnPublish">
                 Опубликовать
               </button>
             </S.ModalFormNewArt>

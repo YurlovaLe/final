@@ -5,32 +5,43 @@ import { Footer } from "../../components/Footer/Footer";
 import { Header } from "../../components/Header/Header";
 import { Menu } from "../../components/Menu/Menu";
 import { useEffect, useState } from "react";
-import { getPersonalProducts } from "../../api";
+import { useGetPersonalProductsQuery } from "../../productsApi"
 import { selectAuth } from "../../slices/authSlice";
+import { useGetUserQuery, useUpdateUserMutation} from "../../userApi"
 
 import { publicationDate } from "../../helpers/publicationDate";
 import * as S from "./ProfilePage.styles";
 
-export const ProfilePage = () => {
+export const ProfilePage = ({isAllowed}) => {
   const { accessToken } = useSelector(selectAuth);
   const navigate = useNavigate();
-  const [productsList, setProductsList] = useState([]);
+  const [formValues, setFormValues] = useState({});
 
-  useEffect(() => {
-    getPersonalProducts(accessToken).then((data) => {
-      setProductsList(data);
-    });
-  }, []);
+  const {data: productsList=[], isSuccess} = useGetPersonalProductsQuery();
+  const [updateUser, {isError}] = useUpdateUserMutation();
+  
+  const {data: user=[]} = useGetUserQuery();
+
+  const handleUpdateUserInfo = async () => {
+    await updateUser({
+      name: formValues.fieldName, 
+      surname: formValues.fieldSurname, 
+      city: formValues.fieldCity,
+      phone: formValues.fieldPhone,
+    }).unwrap()
+  }
+
+  
 
   return (
     <S.Wrapper>
       <S.Container>
-        <Header />
+        <Header isAllowed={isAllowed}/>
         <main>
           <S.MainContainer>
             <S.MainCenterBlock>
               <Menu />
-              <S.MainH2>Здравствуйте, Антон!</S.MainH2>
+              <S.MainH2>{user.name ? `Здравствуйте, ${user.name}!` : 'Здравствуйте!'}</S.MainH2>
               <S.MainProfile>
                 <S.ProfileContent>
                   <S.ProfileTitle>Настройки профиля</S.ProfileTitle>
@@ -41,23 +52,25 @@ export const ProfilePage = () => {
                           <S.SettingsImageImg src="#" alt="" />
                         </a>
                       </S.SettingsImg>
-                      <S.SettingsChangePhoto href="#/" target="_self">
+                      <S.SettingsChangePhoto htmlFor="avatar" href="#/" target="_self">
                         Заменить
+                        <S.SettingsPhotoLoader type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" />
                       </S.SettingsChangePhoto>
                     </S.SettingsLeft>
 
                     <S.SettingsRight>
-                      <S.SettingsForm action="#">
+                      <S.SettingsForm onSubmit={handleUpdateUserInfo}>
                         <S.SettingsDiv>
                           <S.SettingsFormLabel htmlFor="fname">
                             Имя
                           </S.SettingsFormLabel>
                           <S.SettingsFirstName
-                            id="settings-fname"
+                            id="settings-fname" 
                             name="fname"
                             type="text"
-                            defaultValue="Ан"
-                            placeholder=""
+                            defaultValue={user.name}
+                            placeholder="Имя"
+                            onChange={(event) => setFormValues({...formValues, fieldName: event.target.value})}
                           />
                         </S.SettingsDiv>
 
@@ -69,8 +82,9 @@ export const ProfilePage = () => {
                             id="settings-lname"
                             name="lname"
                             type="text"
-                            defaultValue="Городецкий"
-                            placeholder=""
+                            defaultValue={user.surname}
+                            placeholder="Фамилия (необязательно)"
+                            onChange={(event) => setFormValues({...formValues, fieldSurname: event.target.value})}
                           />
                         </S.SettingsDiv>
 
@@ -82,8 +96,9 @@ export const ProfilePage = () => {
                             id="settings-city"
                             name="city"
                             type="text"
-                            defaultValue="Санкт-Петербург"
-                            placeholder=""
+                            defaultValue={user.city}
+                            placeholder="Город"
+                            onChange={(event) => setFormValues({...formValues, fieldCity: event.target.value})}
                           />
                         </S.SettingsDiv>
 
@@ -95,8 +110,9 @@ export const ProfilePage = () => {
                             id="settings-phone"
                             name="phone"
                             type="tel"
-                            defaultValue="89161234567"
-                            placeholder="+79161234567"
+                            defaultValue={user.phone}
+                            placeholder="Телефон"
+                            onChange={(event) => setFormValues({...formValues, fieldPhone: event.target.value})}
                           />
                         </S.SettingsDiv>
 
@@ -113,7 +129,7 @@ export const ProfilePage = () => {
               </S.MainProfile>
               <S.MainTitle>Мои товары</S.MainTitle>
             </S.MainCenterBlock>
-            {/* {(productsList.length === 0) ? (
+            {(productsList.length === 0) ? (
               <div>У вас еще нет товаров</div>
             ) : (
               <S.MainContent>
@@ -126,12 +142,12 @@ export const ProfilePage = () => {
                       price={product.price}
                       city={product.user.city}
                       date={publicationDate(product.created_on)}
-                      onClick={() => navigate(`/product`)}
+                      onClick = {() => navigate(`/product/${product.id}`)}
                     />
                   ))}
                 </S.Cards>
               </S.MainContent>
-            )} */}
+            )}
           </S.MainContainer>
         </main>
         <Footer />

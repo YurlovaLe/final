@@ -197,13 +197,22 @@ export const SettingsImageImg = styled.img`
      object-fit: cover;
 `
 
-export const SettingsChangePhoto = styled.a` 
+export const SettingsChangePhoto = styled.label`
+  cursor: pointer;
   margin-top: 10px;
   margin-bottom: 30px;
   text-decoration: none;
   font-size: 16px;
   line-height: 24px;
   color: #009EE4;
+
+  &:hover {
+    color: #0080C1;
+  }
+`
+
+export const SettingsPhotoLoader = styled.input`
+  display: none;
 `
 
 export const SettingsRight = styled.div` 

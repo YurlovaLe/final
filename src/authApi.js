@@ -8,7 +8,7 @@ export const authApi = createApi({
       query: (body) => {
         return {
           url: "auth/login",
-          method: "post",
+          method: "POST",
           body,
         }
       }
@@ -17,7 +17,7 @@ export const authApi = createApi({
       query: (body) => {
         return {
           url: "auth/register",
-          method: "post",
+          method: "POST",
           body,
         }
       }

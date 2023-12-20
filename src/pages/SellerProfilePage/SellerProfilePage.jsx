@@ -5,24 +5,26 @@ import { Footer } from "../../components/Footer/Footer";
 import { Header } from "../../components/Header/Header";
 import { Menu } from "../../components/Menu/Menu";
 import { sellsFromDate, publicationDate } from "../../helpers/publicationDate";
-import { getProducts } from "../../api";
+import { useGetProductsQuery } from "../../productsApi";
 
 import * as S from "./SellerProfilePage.styles";
 
-export const SellerProfilePage = () => {
+export const SellerProfilePage = ({isAllowed}) => {
   const [productsList, setProductsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [phoneButton, setPhoneButton] = useState('');
 
   const { sellerId } = useParams();
   const navigate = useNavigate();
+
+  const {data: dataProducts=[], isLoading: isProductsLoading} = useGetProductsQuery();
   
   useEffect(() => {
-    getProducts().then((data) => {
-      setProductsList(data);
-    setIsLoading(false);
-  })
-  }, []);
+    if (!isProductsLoading){
+      setProductsList(dataProducts);
+      setIsLoading(false);
+    }
+  }, [isProductsLoading, dataProducts]);
 
   const sellerProducts = productsList.filter((product) => product.user.id === +sellerId);
 
@@ -35,7 +37,7 @@ export const SellerProfilePage = () => {
   return (
     <S.Wrapper>
       <S.Container>
-        <Header />
+        <Header isAllowed={isAllowed} />
         <main>
           <S.MainContainer>
             <S.MainCenterBlock>

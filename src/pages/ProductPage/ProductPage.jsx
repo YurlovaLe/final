@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { createPortal } from "react-dom";
+import { createPortal} from "react-dom";
+import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { Modal } from "../../components/Modal/Modal";
 import { Reviews } from "../../components/Reviews/Reviews";
@@ -9,13 +10,13 @@ import { Menu } from "../../components/Menu/Menu";
 import { ProductForm } from "../../components/ProductForm/ProductForm";
 import { publicationDate, sellsFromDate } from "../../helpers/publicationDate"
 import {quantityReviews} from "../../helpers/products"
-import { getComments, getProduct } from "../../api";
+import {useGetProductQuery, useUpdateProductMutation, useDeleteProductMutation} from "../../productsApi"
+import {useGetCommentsQuery} from "../../commentsApi"
+import { selectAuth } from "../../slices/authSlice";
 
 import * as S from "./ProductPage.styles";
 
-const isAuth = false;
-
-export const ProductPage = () => {
+export const ProductPage = ({isAllowed}) => {
   const navigate = useNavigate();
 
   const { productId } = useParams();
@@ -23,23 +24,40 @@ export const ProductPage = () => {
   const [comments, setComments] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [phoneButton, setPhoneButton] = useState('');
+  const [chosenImage, setChosenImage] = useState('');
 
   const [modalForm, setModalForm] = useState("");
 
-  useEffect(() => {
-    getProduct(productId).then((data) => {
-      setProduct(data);
-      setIsLoading(false);
-    })
-  }, []);
-  console.log(product);
+  const {data: dataComments=[], isLoading: isCommentsLoading} = useGetCommentsQuery(productId);
+  const {data: dataProduct=[], isLoading: isProductLoading} = useGetProductQuery(productId);
+  const { email } = useSelector(selectAuth);
+
+  const [updateProduct, {isError}] = useUpdateProductMutation();
+  const [deleteProduct, {isErrorDelete}] = useDeleteProductMutation();
+
+  const handleUpdateProduct = async ({title, description, price}) => {
+    await updateProduct({
+      title,
+      description,
+      price,
+      productId,
+    }).unwrap();  
+    setModalForm('');
+  }
+
+  const handleDeleteProduct = async () => {
+    await deleteProduct(productId).unwrap();
+    navigate('/profile');
+  }
 
   useEffect(() => {
-    getComments(productId).then((data) => {
-      setComments(data);
-    })
-  }, []);
-  console.log(comments);
+    if (!isProductLoading && !isCommentsLoading) {
+      setProduct(dataProduct);
+      setComments(dataComments);
+      setIsLoading(false);
+      setChosenImage(`http://localhost:8090/${dataProduct.images[0].url}`);
+    }
+  }, [isProductLoading, isCommentsLoading, dataProduct, dataComments])
 
   const getModalForm = () => {
     switch (modalForm) {
@@ -47,7 +65,9 @@ export const ProductPage = () => {
         return (
           <Reviews
             onFormClose={() => setModalForm("")}
+            productId={productId}
             reviews={comments}
+            isAllowed={isAllowed}
           />
         )
       
@@ -56,6 +76,10 @@ export const ProductPage = () => {
           <ProductForm
             onFormClose={() => setModalForm("")}
             text = {"Редактировать объявление"}
+            onFormSubmit={handleUpdateProduct}
+            previousTitle={product.title}
+            previousDescription={product.description}
+            previousPrice={product.price}
           />
         )
       default:
@@ -71,7 +95,7 @@ export const ProductPage = () => {
   return (
     <S.Wrapper>
       <S.Container>
-        <Header />
+        <Header isAllowed={isAllowed}/>
         <S.Main>
           <S.MainContainer>
             <Menu />                   
@@ -81,13 +105,13 @@ export const ProductPage = () => {
               <S.ArticleLeft>
                 <S.ArticleFillImg>
                   <S.ArticleImg>                                        
-                    <S.ArticleImageImg src={product.images[0] ? `http://localhost:8090/${product.images[0].url}` : "/"} alt=""/>                                        
+                    <S.ArticleImageImg src={chosenImage} alt=""/>                                        
                   </S.ArticleImg>                                    
                   <S.ArticleImgBar>
                     {product.images.map((image) =>
                       (
-                        <S.ArticleImgBarDiv key={product.id}>
-                          <S.ArticleImageBarDivImg src={`http://localhost:8090/${image.url}`} alt=""/>
+                        <S.ArticleImgBarDiv key={image.id}>
+                          <S.ArticleImageBarDivImg src={`http://localhost:8090/${image.url}`} onClick={() => setChosenImage(`http://localhost:8090/${image.url}`)} alt="" />
                         </S.ArticleImgBarDiv>
                       )
                     )}
@@ -110,10 +134,10 @@ export const ProductPage = () => {
                     <S.ArticleLink rel="" onClick={() => setModalForm("reviews")}>{quantityReviews(comments.length)}</S.ArticleLink>
                   </S.ArticleInfo>
                   <S.ArticlePrice>{product.price} ₽</S.ArticlePrice>
-                  { isAuth ? 
+                  { (email === product.user.email) ? 
                     (<S.ArticleBtnBlock>
                       <button className="article__btn btn-redact btn-hov02" onClick={() => setModalForm("edit")}>Редактировать</button>
-                      <button className="article__btn btn-remove btn-hov02">Снять с публикации</button>
+                      <button className="article__btn btn-remove btn-hov02" onClick={() => handleDeleteProduct()}>Снять с публикации</button>
                     </S.ArticleBtnBlock>) 
                     : (
                         <button className="article__btn btn-hov02" onClick={() => setPhoneButton('show')}>
@@ -123,7 +147,7 @@ export const ProductPage = () => {
                   }
                   <S.ArticleAuthor>
                     <S.AuthorImage>
-                      <S.AuthorImageImg src="" alt=""/>
+                      <S.AuthorImageImg src={`http://localhost:8090/${product.user.avatar}`} alt=""/>
                     </S.AuthorImage>
                     <S.AuthorCont>
                       <S.AuthorName onClick={() => navigate(`/seller-profile/${product.user.id}`)}>{product.user.name}</S.AuthorName>

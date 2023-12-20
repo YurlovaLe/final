@@ -2,25 +2,25 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { Footer } from "../../components/Footer/Footer";
 import { publicationDate } from "../../helpers/publicationDate"
-import { getProducts } from "../../api";
 import { useEffect, useState } from "react";
 import { useGetProductsQuery } from "../../productsApi";
 
 import * as S from "./MainPage.styles";
 
-export const MainPage = () => {
+export const MainPage = ({isAllowed}) => {
   const navigate = useNavigate();
   const [productsList, setProductsList] = useState([]);
   const [searchValue, setSearchValue] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
-  const {data: rtkProducts=[]} = useGetProductsQuery();
-  console.log(rtkProducts);
+  const {data: dataProducts=[], isLoading: isProductsLoading} = useGetProductsQuery();
 
   useEffect(() => {
-    getProducts().then((data) => {
-      setProductsList(data);
-    })
-  }, []);
+    if (!isProductsLoading) {
+      setProductsList(dataProducts);
+      setIsLoading(false);
+    }
+  }, [isProductsLoading, dataProducts])
 
   const filtredProductsList = productsList.filter((product) => {
     return (
@@ -29,13 +29,17 @@ export const MainPage = () => {
       || product.user.city?.toLowerCase().includes(searchValue.toLowerCase())
     );
   })
+
+  if (isLoading) {
+    return;
+  }
   
   return (
     <S.Wrapper>
       <S.Container>
         <S.Header>
           <S.HeaderNav>                    
-            <NavLink to="/signin">
+            <NavLink to={isAllowed ? '/profile' : '/signin'}>
               <button className="header__btn-main-enter btn-hov01" id="btnMainEnter">Вход в личный кабинет</button>
             </NavLink>
           </S.HeaderNav>

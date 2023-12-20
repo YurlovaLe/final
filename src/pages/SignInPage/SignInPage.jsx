@@ -51,7 +51,6 @@ export const SignInPage = () => {
         refreshToken: data.refresh_token
       }));
       navigate('/profile');
-      console.log('sucsess', data);
     } else {
     console.log('fail', data);
     }

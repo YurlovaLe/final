@@ -1,9 +1,8 @@
-import { useState } from "react";
-//import { handleRegisterApi } from "../../api";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { useRegisterUserMutation } from "../../authApi";
+import { useRegisterUserMutation, useLoginUserMutation } from "../../authApi";
 import { setUser } from "../../slices/authSlice";
 
 import * as S from "./SignUpPage.styles";
@@ -18,12 +17,18 @@ const dispatch = useDispatch();
 const [
   registerUser,
   {
-    data,
-    isSuccess,
-    isError,
-    error,
+    isErrorRegister,
+    errorRegister,
   }
  ] = useRegisterUserMutation();
+
+ const [
+  loginUser,
+  {
+    isErrorLogin,
+    errorLogin,
+  }
+ ] = useLoginUserMutation();
 
 const navigate = useNavigate();
 
@@ -40,7 +45,7 @@ const handleRegister = async (event) => {
     return;
   }
 
-  const { data } = await registerUser({ 
+  await registerUser({ 
     email: formValues.fieldEmail,
     password: formValues.fieldPassword, 
     name: formValues.fieldName, 
@@ -48,40 +53,15 @@ const handleRegister = async (event) => {
     city: formValues.fieldCity
   });
 
-  if (isSuccess) {
-    console.log(data);
-    // setError('Укажите почту/пароль');
-    dispatch(setUser({
-      email: formValues.fieldEmail,
-      accessToken: data.access_token,
-      refreshToken: data.refresh_token
-    }));
-    navigate('/profile');
-    return;
-  }
+  const { data } = await loginUser({ email: formValues.fieldEmail, password: formValues.fieldPassword });
 
-  console.log('fail', data, error);
+  dispatch(setUser({
+    email: formValues.fieldEmail,
+    accessToken: data.access_token,
+    refreshToken: data.refresh_token
+  }));
 
-  //setIsSubmiting(true);
-  //setError('');
-
-
-  // handleRegisterApi({ 
-  //   email: formValues.fieldEmail,
-  //   password: formValues.fieldPassword, 
-  //   name: formValues.fieldName, 
-  //   surname: formValues.fieldSurname, 
-  //   city: formValues.fieldCity
-  // })
-  //   .then((user) => {
-  //     setIsSubmiting(false);
-  //     console.log(user);
-  //     navigate('/profile')
-  //   })
-  //   .catch((error) => {
-  //     setError(error.message);
-  //     setIsSubmiting(false);
-  //   });
+  navigate('/profile');
 };
 
   return (
@@ -99,7 +79,7 @@ const handleRegister = async (event) => {
             <S.ModalInput type="text" name="first-last" id="first-last" placeholder="Фамилия (необязательно)" onChange={(event) => setFormValues({...formValues, fieldSurname: event.target.value})}/>
             <S.ModalInput type="text" name="city" id="city" placeholder="Город (необязательно)" onChange={(event) => setFormValues({...formValues, fieldCity: event.target.value})}/>
             <S.ModalBtnSignupEnt id="SignUpEnter">
-            <div>{error}</div>
+            <div>{errorRegister}</div>
             <S.ModalBtnSignupEntA disabled={isSubmiting}>Зарегистрироваться</S.ModalBtnSignupEntA>
             </S.ModalBtnSignupEnt>
           </S.ModalFormLogin>
