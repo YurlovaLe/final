@@ -36,12 +36,13 @@ export const userApi = createApi({
     updateUserPhoto: build.mutation({
       query: (body) => {
         return {
-          url: 'user',
+          url: 'user/avatar',
           method: "POST",
           headers: {
             Authorization: `Bearer ${getTokenFromLocalstorage()}`,
           },
           body,
+          formData: true,
         }
       },
       invalidatesTags: ['User']

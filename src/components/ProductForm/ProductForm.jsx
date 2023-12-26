@@ -6,15 +6,16 @@ export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = ''
   const [title, setTitle] = useState(previousTitle);
   const [description, setDescription] = useState(previousDescription);
   const [price, setPrice] = useState(previousPrice);
+  const [images, setImages] = useState([]);
 
   const submitHandler = (event) => {
     event.preventDefault();
-
-    const data = {title, description, price}
+    const data = {title, description, price, images}
     onFormSubmit(data);
     
   }
 
+  console.log(images);
 
   return (
     <S.Wrapper>
@@ -54,7 +55,8 @@ export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = ''
                   Фотографии товара
                   <S.FormNewArtPSpan>не более 5 фотографий</S.FormNewArtPSpan>
                 </S.FormNewArtP>
-                <S.FormNewArtBarImg>
+                <S.FormNewArtBarImg htmlFor="photo" href="#/" target="_self">
+                  <S.SettingsPhotoLoader onChange={(event) => setImages(event.target.files)} id="photo" type="file" name="photo" accept="image/png, image/jpeg" />
                   <S.FormNewArtImage>
                     <S.FormNewArtImageImg src="/" alt="" />
                     <S.FormNewArtImgCover></S.FormNewArtImgCover>

@@ -55,7 +55,7 @@ export const ProductPage = ({isAllowed}) => {
       setProduct(dataProduct);
       setComments(dataComments);
       setIsLoading(false);
-      setChosenImage(`http://localhost:8090/${dataProduct.images[0].url}`);
+      setChosenImage(`http://localhost:8090/${dataProduct.images[0]?.url}`);
     }
   }, [isProductLoading, isCommentsLoading, dataProduct, dataComments])
 

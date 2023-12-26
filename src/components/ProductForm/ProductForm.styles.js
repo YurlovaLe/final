@@ -400,7 +400,7 @@ export const FormNewArtPSpan = styled.span`
   }
 `
 
-export const FormNewArtBarImg = styled.div`
+export const FormNewArtBarImg = styled.label`
   width: 500px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -615,4 +615,8 @@ export const BlockPrice = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+`
+
+export const SettingsPhotoLoader = styled.input`
+  display: none;
 `

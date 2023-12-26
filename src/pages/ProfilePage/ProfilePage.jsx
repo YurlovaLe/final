@@ -1,24 +1,23 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { Footer } from "../../components/Footer/Footer";
 import { Header } from "../../components/Header/Header";
 import { Menu } from "../../components/Menu/Menu";
-import { useEffect, useState } from "react";
 import { useGetPersonalProductsQuery } from "../../productsApi"
-import { selectAuth } from "../../slices/authSlice";
-import { useGetUserQuery, useUpdateUserMutation} from "../../userApi"
+import { useGetUserQuery, useUpdateUserMutation, useUpdateUserPhotoMutation} from "../../userApi"
+import { uploadImage } from "../../api";
 
 import { publicationDate } from "../../helpers/publicationDate";
 import * as S from "./ProfilePage.styles";
 
 export const ProfilePage = ({isAllowed}) => {
-  const { accessToken } = useSelector(selectAuth);
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState({});
 
   const {data: productsList=[], isSuccess} = useGetPersonalProductsQuery();
   const [updateUser, {isError}] = useUpdateUserMutation();
+  const [updateUserPhoto, {isErrorPhoto}] = useUpdateUserPhotoMutation();
   
   const {data: user=[]} = useGetUserQuery();
 
@@ -31,7 +30,11 @@ export const ProfilePage = ({isAllowed}) => {
     }).unwrap()
   }
 
-  
+  const handleUpdateUserPhoto = async (event) => {
+    const data = new FormData();
+    data.append("file", event.target.files[0]);
+    await updateUserPhoto(data);
+  }
 
   return (
     <S.Wrapper>
@@ -49,12 +52,12 @@ export const ProfilePage = ({isAllowed}) => {
                     <S.SettingsLeft>
                       <S.SettingsImg>
                         <a href="#/" target="_self">
-                          <S.SettingsImageImg src="#" alt="" />
+                          <S.SettingsImageImg src={user.avatar ? `http://localhost:8090/${user.avatar}` : '/'} alt="" />
                         </a>
                       </S.SettingsImg>
                       <S.SettingsChangePhoto htmlFor="avatar" href="#/" target="_self">
                         Заменить
-                        <S.SettingsPhotoLoader type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" />
+                        <S.SettingsPhotoLoader onChange={handleUpdateUserPhoto} id="avatar" type="file" name="avatar" accept="image/png, image/jpeg" />
                       </S.SettingsChangePhoto>
                     </S.SettingsLeft>
 

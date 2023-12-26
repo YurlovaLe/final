@@ -29,6 +29,21 @@ export const productsApi = createApi({
     }),
 
     postProduct: build.mutation({
+      query: ({body, title, description, price}) => {
+        return {
+          url: `ads?title=${title}&description=${description}&price=${price}`,
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${getTokenFromLocalstorage()}`,
+          },
+          body,
+          formData: true,
+        };
+      },
+      invalidatesTags: [{type: 'Products', id: 'LIST'}, 'Product']
+    }),
+
+    postProductWithoutImage: build.mutation({
       query: (body) => {
         return {
           url: "adstext",
@@ -88,4 +103,5 @@ export const {
   useGetProductQuery,
   useUpdateProductMutation,
   useDeleteProductMutation,
+  usePostProductWithoutImageMutation,
 } = productsApi;

@@ -58,8 +58,21 @@ export const SignInPage = () => {
 
   useEffect(() => {
     if (isError) {
-      setFormError(error.data.error);
-      console.log(formError);
+      console.log(error.status);
+      switch (error.status) {
+        case 422:
+          setFormError('Неверный email или пароль');
+          console.log(formError);
+          break;
+
+        case 401:
+          setFormError('Неверный email или пароль');
+          console.log(formError);
+          break;
+      
+        default:
+          break;
+      }
     }
   }, [isError]);
 
