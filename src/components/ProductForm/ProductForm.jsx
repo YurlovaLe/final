@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "./ProductForm.styles";
 
 export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = '', previousDescription='', previousPrice }) => {
@@ -7,6 +7,7 @@ export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = ''
   const [description, setDescription] = useState(previousDescription);
   const [price, setPrice] = useState(previousPrice);
   const [images, setImages] = useState([]);
+  const [imageSource, setImageSource] = useState(null);
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -14,6 +15,16 @@ export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = ''
     onFormSubmit(data);
     
   }
+
+  useEffect(() => {
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      const imageSrc = fileReader.result;
+      console.log(imageSrc);
+      setImageSource(imageSrc);
+    }
+    images.length && fileReader.readAsDataURL(images[0]);
+  }, [images])
 
   return (
     <S.Wrapper>
@@ -59,7 +70,7 @@ export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = ''
                 <S.FormNewArtBarImg htmlFor="photo" href="#/" target="_self">
                   <S.SettingsPhotoLoader onChange={(event) => setImages(event.target.files)} id="photo" type="file" name="photo" accept="image/png, image/jpeg" />
                   <S.FormNewArtImage>
-                    <S.FormNewArtImageImg src="/" alt="" />
+                    <S.FormNewArtImageImg src={imageSource} alt="" />
                     <S.FormNewArtImgCover></S.FormNewArtImgCover>
                   </S.FormNewArtImage>
                   <S.FormNewArtImage>
