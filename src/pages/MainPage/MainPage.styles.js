@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { Button } from "../../components/Button/Button";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -292,6 +293,14 @@ export const SearchText =styled.input`
     font-size: 16px;
     line-height: 24px;
   }
+
+  @media screen and (max-width: 590px) {
+    display: none;
+  }
+`
+
+export const ButtonSearch = styled(Button)`
+  margin-left: 10px;
 
   @media screen and (max-width: 590px) {
     display: none;

@@ -1,12 +1,12 @@
-import { useState } from "react"
-import { publicationDate } from "../../helpers/publicationDate"
-import { Review } from "../Review/Review"
-import {usePostCommentMutation} from "../../commentsApi"
+import { useState } from "react";
+import { publicationDate } from "../../helpers/publicationDate";
+import { Review } from "../Review/Review";
+import { usePostCommentMutation } from "../../api/commentsApi";
 
-import * as S from "./Reviews.styles"
+import * as S from "./Reviews.styles";
 
-export const Reviews = ({onFormClose, reviews, isAllowed, productId}) => {
-  const [comment, setComment] = useState('');
+export const Reviews = ({ onFormClose, reviews, isAllowed, productId }) => {
+  const [comment, setComment] = useState("");
   const [postComment] = usePostCommentMutation();
 
   const handlePostComment = async (event) => {
@@ -14,24 +14,26 @@ export const Reviews = ({onFormClose, reviews, isAllowed, productId}) => {
 
     await postComment({
       text: comment,
-      productId: productId
-    }).unwrap()
-    setComment('')
-  }
+      productId: productId,
+    }).unwrap();
+    setComment("");
+  };
   return (
-    
-      <S.Wrapper>
-        <S.ContainerBg>
-          <S.ModalBlock>
-            <S.ModalContent>
-              <S.ModalTitle>Отзывы о товаре</S.ModalTitle>
-              <S.ModalBtnClose onClick={onFormClose} type="button">
-                <S.ModalBtnCloseLine></S.ModalBtnCloseLine>
-              </S.ModalBtnClose>
-              <S.ModalScroll>
-                { isAllowed && (<S.ModalFormNewArt id="formNewArt" onSubmit={handlePostComment}>
+    <S.Wrapper>
+      <S.ContainerBg>
+        <S.ModalBlock>
+          <S.ModalContent>
+            <S.ModalTitle>Отзывы о товаре</S.ModalTitle>
+            <S.ModalBtnClose onClick={onFormClose} type="button">
+              <S.ModalBtnCloseLine></S.ModalBtnCloseLine>
+            </S.ModalBtnClose>
+            <S.ModalScroll>
+              {isAllowed && (
+                <S.ModalFormNewArt id="formNewArt" onSubmit={handlePostComment}>
                   <S.FormNewArtBlock>
-                    <S.FormNewArtLabel htmlFor="text">Добавить отзыв</S.FormNewArtLabel>
+                    <S.FormNewArtLabel htmlFor="text">
+                      Добавить отзыв
+                    </S.FormNewArtLabel>
                     <S.FormNewArtArea
                       name="text"
                       id="formArea"
@@ -42,15 +44,29 @@ export const Reviews = ({onFormClose, reviews, isAllowed, productId}) => {
                       value={comment}
                     />
                   </S.FormNewArtBlock>
-                  <button className="form-newArt__btn-pub btn-hov02" id="btnPublish">Опубликовать</button>
-                </S.ModalFormNewArt>) }
-                <S.ModalReviews>
-                  {reviews.length!==0 ? (reviews.map((review) => <Review key={review.id} name={review.author.name} date={publicationDate(review.created_on).slice(0, publicationDate(review.created_on).length-8)} text={review.text} img={review.avatar}/>)) : "Здесь пока нет отзывов"}
-                </S.ModalReviews>
-              </S.ModalScroll>
-            </S.ModalContent>
-          </S.ModalBlock>
-        </S.ContainerBg>
-      </S.Wrapper>
-  )
-}
+                  <S.SubmitButton>Опубликовать</S.SubmitButton>
+                </S.ModalFormNewArt>
+              )}
+              <S.ModalReviews>
+                {reviews.length !== 0
+                  ? reviews.map((review) => (
+                      <Review
+                        key={review.id}
+                        name={review.author.name}
+                        date={publicationDate(review.created_on).slice(
+                          0,
+                          publicationDate(review.created_on).length - 8
+                        )}
+                        text={review.text}
+                        img={review.avatar}
+                      />
+                    ))
+                  : "Здесь пока нет отзывов"}
+              </S.ModalReviews>
+            </S.ModalScroll>
+          </S.ModalContent>
+        </S.ModalBlock>
+      </S.ContainerBg>
+    </S.Wrapper>
+  );
+};

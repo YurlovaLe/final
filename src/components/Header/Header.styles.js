@@ -63,3 +63,12 @@ export const HeaderLogo = styled.div`
     display: block;
   }
 `
+
+export const HeaderButtons = styled.div`
+  display: flex;
+  gap: 10px;
+
+  @media screen and (max-width: 620px) {
+    display: none;
+  }
+`

@@ -15,8 +15,6 @@ export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = ''
     
   }
 
-  console.log(images);
-
   return (
     <S.Wrapper>
       <S.ContainerBg>
@@ -90,9 +88,7 @@ export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = ''
                 />
                 <S.FormNewArtInputPriceCover>&#x20BD;</S.FormNewArtInputPriceCover>
               </S.BlockPrice>
-              <button className="form-newArt__btn-pub btn-hov02" id="btnPublish">
-                Опубликовать
-              </button>
+              <S.SubmitButton>Опубликовать</S.SubmitButton>
             </S.ModalFormNewArt>
           </S.ModalContent>
         </S.ModalBlock>

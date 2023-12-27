@@ -280,7 +280,7 @@ export const ModalBtnSignup = styled.button`
   }
 `
 
-export const ModalBtnSignupA = styled.a`
+export const ModalBtnSignupA = styled.span`
   width: 100%;
   height: 100%;
   font-style: normal;
@@ -303,4 +303,13 @@ export const ModalBtnSignupA = styled.a`
     font-size: 16px;
     line-height: 24px;
   }
+`
+
+export const ErrorForm = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(255, 128, 113);
+  font-size: 0.8rem;
+  font-weight: 400;
 `

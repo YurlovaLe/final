@@ -1,70 +1,40 @@
-# Getting Started with Create React App
+# Финальный проект по курсу Web-разработчик Skypro
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Описание проекта
+skypro-avito - это платформа для продажи и покупки товаров и услуг, аналог Avito.
 
-## Available Scripts
+В проекте используются: JavaScript, React, RTK Query, Redux Toolkit, Styled components и Docker.
 
-In the project directory, you can run:
+Основные функции: 
+- Регистрация и авторизация пользователей
+- Редактирование профиля пользователя
+- Добавление и изменение аватара пользователя
+- Создание объявлений о продаже с загрузкой изображений и без
+- Редактирование объявлений о продаже
+- Снятие объявлений с публикации
+- Поиск товаров по названию
+- Просмотр профиля продавца
+- Просмотр комментариев к товару
+- Возможность оставлять комментарии к товарам
+- Десктопная и мобильная версии
 
-### `npm start`
+<img src="./public/img/main.png" alt="preview">&nbsp;
+<img src="./public/img/product.png" alt="preview">&nbsp;
+<img src="./public/img/reviews.png" alt="preview">&nbsp;
+<img src="./public/img/seller.png" alt="preview">&nbsp;
+<img src="./public/img/profile.png" alt="preview">&nbsp;
+<img src="./public/img/new.png" alt="preview">&nbsp;
+<img src="./public/img/edit.png" alt="preview">&nbsp;
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Техническое описание
+Для того, чтобы посмотреть проект, необходимо:  
+1. Скачать файл backend'a по [ссылке](https://drive.google.com/file/d/1pFE-NRANTsWmQwTyURjHXuECMmoKCFjO/view) и развернуть его в Docker.
+   - Скачайте и разархивируйте архив
+   - Через терминал перейдите в разархивированную папку
+   - В терминале запустите команду: `docker-compose -f docker-compose-backend.yaml up -d`
+3. Установить зависимости командой `npm install`
+4. Запустить проект командой `npm run start`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+`src/` — директория, содержащая исходный код проекта.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Над проектом работала Олеся Конева  

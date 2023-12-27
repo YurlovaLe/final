@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { productsApi } from "./productsApi";
+import { productsApi } from "../src/api/productsApi";
 import authReducer from "../src/slices/authSlice"
-import { authApi } from "./authApi";
+import { authApi } from "../src/api/authApi";
 import { setupListeners } from "@reduxjs/toolkit/query/react";
-import { userApi } from "./userApi";
-import { commentsApi } from "./commentsApi";
+import { userApi } from "../src/api/userApi";
+import { commentsApi } from "../src/api/commentsApi";
 
 export const store = configureStore({
   reducer: {

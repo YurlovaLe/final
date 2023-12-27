@@ -212,3 +212,11 @@ export const ModalBtnSignupEntA = styled.a`
     line-height: 24px;
   }
 `
+export const ErrorForm = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(255, 128, 113);
+  font-size: 0.8rem;
+  font-weight: 400;
+`

@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import { Button } from "../Button/Button";
 import * as S from "./Header.styles"
 
 export const Header = ({isAllowed}) => {
@@ -15,8 +16,10 @@ export const Header = ({isAllowed}) => {
           </S.LogoMobLink>
         </NavLink>
         </S.HeaderLogo>
-        <button className="header__btn-putAd btn-hov01" id="btputAd" onClick={() => isAllowed ? navigate(`/new-product`) : navigate('/signin')}>Разместить объявление</button>
-        <button className="header__btn-lk btn-hov01" id="btnlk" onClick={() => isAllowed ? navigate(`/profile`) : navigate('/signin')}>Личный кабинет</button>
+        <S.HeaderButtons>
+          <Button $view="outline" $size="compact" onClick={() => isAllowed ? navigate(`/new-product`) : navigate('/signin')}>Разместить объявление</Button>
+          <Button $view="outline" $size="compact" onClick={() => isAllowed ? navigate(`/profile`) : navigate('/signin')}>Личный кабинет</Button>
+        </S.HeaderButtons>
       </S.HeaderNav>
     </S.Header>
   )

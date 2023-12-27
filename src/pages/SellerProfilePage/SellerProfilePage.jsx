@@ -5,7 +5,7 @@ import { Footer } from "../../components/Footer/Footer";
 import { Header } from "../../components/Header/Header";
 import { Menu } from "../../components/Menu/Menu";
 import { sellsFromDate, publicationDate } from "../../helpers/publicationDate";
-import { useGetProductsQuery } from "../../productsApi";
+import { useGetProductsQuery } from "../../api/productsApi";
 
 import * as S from "./SellerProfilePage.styles";
 
@@ -24,7 +24,8 @@ export const SellerProfilePage = ({isAllowed}) => {
       setProductsList(dataProducts);
       setIsLoading(false);
     }
-  }, [isProductsLoading, dataProducts]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isProductsLoading]);
 
   const sellerProducts = productsList.filter((product) => product.user.id === +sellerId);
 
@@ -66,9 +67,9 @@ export const SellerProfilePage = ({isAllowed}) => {
                         </S.SellerImgMob>
                       </S.SellerImgMobBlock>
                     
-                      <button className="seller__btn btn-hov02" onClick={() => setPhoneButton('show')}>
-                        {phoneButton ? "Телефон" : "Показать телефон"} <span> {phoneButton ? seller.phone : `${seller.phone.slice(0, 5)} XXXXXXX`} </span>
-                      </button>
+                      <S.SellerButton $size="compact" onClick={() => setPhoneButton('show')}>
+                        {phoneButton ? "Телефон" : "Показать телефон"} <div> {phoneButton ? seller.phone : `${seller.phone.slice(0, 5)} XXXXXXX`} </div>
+                      </S.SellerButton>
                     </S.SellerRight>
                   </S.ProfileSellSeller>
                 </S.ProfileSellContent>

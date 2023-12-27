@@ -486,12 +486,12 @@ export const ArticleBtnBlock = styled.div`
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  gap: 10px;
 
   @media screen and (max-width: 961px) {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    width: 100%;
+    max-width: 100%;
   }
 
 `

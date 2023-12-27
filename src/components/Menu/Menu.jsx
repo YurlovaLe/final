@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { Button } from "../Button/Button";
 import * as S from "./Menu.styles"
 
 export const Menu = () => {
@@ -9,7 +10,7 @@ export const Menu = () => {
         <S.MenuLogoImg src="/img/logo.png" alt="logo"/>
       </S.MenuLogoLink>
       <S.MenuForm action="#">
-        <button className="menu__btn btn-hov02" id="btnGoBack" onClick={() => navigate(`/`)}>Вернуться на&nbsp;главную</button>
+        <Button onClick={() => navigate(`/`)}>Вернуться на&nbsp;главную</Button>
       </S.MenuForm>
     </S.MainMenu>
   )

@@ -16,7 +16,7 @@ function App() {
     // проверить что токены еще актуальные
     dispatch(setUser(user));
     setIsAppLoading(false);
-  }, []);
+  }, [dispatch, user]);
 
   if (isAppLoading) {
     return null;

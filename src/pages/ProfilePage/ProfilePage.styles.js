@@ -1,4 +1,5 @@
-import styled from "styled-components"
+import styled from "styled-components";
+import { Button } from "../../components/Button/Button";
 
 export const Wrapper = styled.div `
   width: 100%;
@@ -232,6 +233,15 @@ export const SettingsDiv = styled.div`
     display: inline-block;
     margin: 0 0px 18px;
   }
+`
+
+export const SettingsSubmit = styled(Button)`
+  margin: 10px 7px 0;
+
+  @media screen and (max-width: 620px) {
+    max-width: 100%;
+    margin: 8px 0px 0;
+}
 `
 
 export const SettingsForm = styled.form` 

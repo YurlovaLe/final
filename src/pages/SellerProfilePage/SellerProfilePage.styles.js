@@ -1,4 +1,5 @@
-import styled from "styled-components"
+import styled from "styled-components";
+import { Button } from "../../components/Button/Button";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -335,5 +336,15 @@ export const SellerImageMobImg = styled.img`
     display: block;
     -o-object-fit: cover;
     object-fit: cover;
+  }
+`
+
+export const SellerButton = styled(Button)`
+  margin-top: 20px;
+  max-width: 214px;
+
+  @media screen and (max-width: 580px) {
+    max-width: 100%;
+    font-size: 12px;
   }
 `

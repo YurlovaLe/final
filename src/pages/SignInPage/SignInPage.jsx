@@ -2,16 +2,10 @@ import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { useLoginUserMutation } from "../../authApi";
+import { useLoginUserMutation } from "../../api/authApi";
 import { setUser } from "../../slices/authSlice";
 
 import * as S from "./SignInPage.styles";
-
-
-const initialState = {
-  email: "",
-  password: "",
-}
 
 export const SignInPage = () => {
   const [email, setEmail] = useState('');
@@ -25,8 +19,8 @@ export const SignInPage = () => {
     {
       data,
       isSuccess,
-      isError,
       error,
+      isError
     }
    ] = useLoginUserMutation();
 
@@ -34,13 +28,15 @@ export const SignInPage = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    setIsSubmiting(true);
 
     if (email && password) {
       await loginUser({ email, password });
     } else {
-      setFormError('Укажите почту/пароль');
-      console.log(formError);
+      setFormError('Укажите email и пароль');
     }
+
+    setIsSubmiting(false);
   };
 
   useEffect(() => {
@@ -51,30 +47,18 @@ export const SignInPage = () => {
         refreshToken: data.refresh_token
       }));
       navigate('/profile');
-    } else {
-    console.log('fail', data);
-    }
-  }, [isSuccess]);
+    } 
+  }, [isSuccess, data, email, dispatch, navigate]);
 
   useEffect(() => {
     if (isError) {
-      console.log(error.status);
-      switch (error.status) {
-        case 422:
-          setFormError('Неверный email или пароль');
-          console.log(formError);
-          break;
-
-        case 401:
-          setFormError('Неверный email или пароль');
-          console.log(formError);
-          break;
-      
-        default:
-          break;
+      if (error.status !== 401 && error.status !== 422) {
+        setFormError('Что-то пошло не так');
+      } else {
+        setFormError('Неверный email или пароль');
       }
     }
-  }, [isError]);
+  }, [isError, error]);
 
   return (
     <S.Wrapper>
@@ -89,7 +73,7 @@ export const SignInPage = () => {
                 <S.ModalInput type="text" name="login" id="loginReg" placeholder="email" onChange={(event) => setEmail(event.target.value)}/>
                 <S.ModalInput type="password" name="password" id="passwordFirst" placeholder="Пароль" onChange={(event) => setPassword(event.target.value)}/>
               </S.ModalInputGroup>
-
+              
               <S.ModalBtnGroup>
                 <S.ModalBtnEnter id="SignInEnter">
                   <S.ModalBtnEnterA disabled={isSubmiting}>Войти</S.ModalBtnEnterA>
@@ -97,12 +81,12 @@ export const SignInPage = () => {
 
                 <S.ModalBtnSignup id="SignUpEnter">
                   <NavLink to="/signup">
-                    <S.ModalBtnSignupA type="button">Зарегистрироваться</S.ModalBtnSignupA>
+                    <S.ModalBtnSignupA>Зарегистрироваться</S.ModalBtnSignupA>
                   </NavLink>
                 </S.ModalBtnSignup>
               </S.ModalBtnGroup>
             </S.ModalFormInner>
-
+            <S.ErrorForm>{formError}</S.ErrorForm>
           </S.ModalFormLogin>
         </S.ModalBlock>
       </S.ContainerEnter>

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Button } from "../Button/Button";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -615,6 +616,16 @@ export const BlockPrice = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+`
+
+export const SubmitButton = styled(Button)`
+  margin-top: 30px;
+  max-width: 180px;
+
+  @media screen and (max-width: 600px) {
+    margin-top: 10px;
+    max-width: 100%;
+  }
 `
 
 export const SettingsPhotoLoader = styled.input`

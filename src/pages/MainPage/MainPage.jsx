@@ -1,9 +1,10 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { Footer } from "../../components/Footer/Footer";
+import { Button } from "../../components/Button/Button";
 import { publicationDate } from "../../helpers/publicationDate"
 import { useEffect, useState } from "react";
-import { useGetProductsQuery } from "../../productsApi";
+import { useGetProductsQuery } from "../../api/productsApi";
 
 import * as S from "./MainPage.styles";
 
@@ -20,7 +21,8 @@ export const MainPage = ({isAllowed}) => {
       setProductsList(dataProducts);
       setIsLoading(false);
     }
-  }, [isProductsLoading, dataProducts])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isProductsLoading])
 
   const filtredProductsList = productsList.filter((product) => {
     return (
@@ -40,7 +42,7 @@ export const MainPage = ({isAllowed}) => {
         <S.Header>
           <S.HeaderNav>                    
             <NavLink to={isAllowed ? '/profile' : '/signin'}>
-              <button className="header__btn-main-enter btn-hov01" id="btnMainEnter">Вход в личный кабинет</button>
+              <Button $view="outline" $size="compact">Вход в личный кабинет</Button>
             </NavLink>
           </S.HeaderNav>
         </S.Header>
@@ -58,7 +60,7 @@ export const MainPage = ({isAllowed}) => {
             }}>
               <S.SearchText type="search" placeholder="Поиск по объявлениям" name="search"/>
               <S.SearchTextMob type="search" placeholder="Поиск" name="search-mob"/>
-              <button className="search__btn btn-hov02">Найти</button>
+              <S.ButtonSearch>Найти</S.ButtonSearch>
             </S.SearchForm>
           </S.MainSearch>
           <S.MainContainer>
