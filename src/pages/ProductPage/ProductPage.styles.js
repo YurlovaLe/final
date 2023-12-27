@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Button } from "../../components/Button/Button";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -34,6 +35,9 @@ export const Container = styled.div`
 
 export const Main = styled.main`
   margin: 0 auto;
+  @media screen and (max-width: 580px) {
+    margin-top: 55px;
+  }
 `;
 
 export const MainContainer = styled.div`
@@ -152,6 +156,29 @@ export const ArticleLeft = styled.div`
   }
 `;
 
+export const ModalBack = styled.div`
+  display: none;
+  width: 14px;
+  height: 14px;
+  border-top: 2px solid #FFF;
+  border-left: 2px solid #FFF;
+  transform: rotate(-45deg);
+  cursor: pointer;
+  position: absolute;
+  top: 70px;
+  left: 20px;
+  z-index: 3;
+
+  &:hover {
+    border-top: 2px solid #0080C1;
+    border-left: 2px solid #0080C1;
+  }
+
+  @media screen and (max-width: 600px) {
+    display: block;
+  }
+`;
+
 export const ArticleFillImg = styled.div`
   width: 100%;
   display: -webkit-box;
@@ -164,11 +191,6 @@ export const ArticleFillImg = styled.div`
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-
-  &:hover::before {
-    border-top: 2px solid #0080c1;
-    border-left: 2px solid #0080c1;
-  }
 
   @media screen and (max-width: 768px) {
     max-width: 100%;
@@ -188,22 +210,6 @@ export const ArticleFillImg = styled.div`
     -ms-flex-pack: center;
     justify-content: center;
     position: relative;
-
-    &::before {
-      content: "";
-      display: block;
-      width: 23px;
-      height: 23px;
-      background-color: transparent;
-      border-top: 2px solid #000000;
-      border-left: 2px solid #000000;
-      -webkit-transform: rotate(-45deg);
-      transform: rotate(-45deg);
-      position: absolute;
-      top: 24px;
-      left: 32px;
-      cursor: pointer;
-    }
   }
 `;
 
@@ -491,7 +497,12 @@ export const ArticleBtnBlock = styled.div`
   @media screen and (max-width: 961px) {
     display: flex;
     flex-direction: column;
-    max-width: 100%;
+    width: 100%;
   }
+`
 
+export const PhoneButton = styled(Button)`
+  @media screen and (max-width: 630px) {
+    width: 100%;
+  }
 `

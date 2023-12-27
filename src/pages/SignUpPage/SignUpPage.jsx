@@ -7,6 +7,7 @@ import {
   useLoginUserMutation,
 } from "../../api/authApi";
 import { setUser } from "../../slices/authSlice";
+import { Footer } from "../../components/Footer/Footer";
 
 import * as S from "./SignUpPage.styles";
 
@@ -158,6 +159,7 @@ export const SignUpPage = () => {
                 Зарегистрироваться
               </S.ModalBtnSignupEntA>
             </S.ModalBtnSignupEnt>
+            <Footer />
           </S.ModalFormLogin>
           <S.ErrorForm>{formError}</S.ErrorForm>
         </S.ModalBlock>

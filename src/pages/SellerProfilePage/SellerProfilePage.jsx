@@ -43,7 +43,10 @@ export const SellerProfilePage = ({isAllowed}) => {
           <S.MainContainer>
             <S.MainCenterBlock>
               <Menu />
-              <S.MainH2>Профиль продавца</S.MainH2>
+              <S.ModalHeader>
+                <S.ModalBack onClick={() => navigate(-1)}/>
+                <S.MainH2>Профиль продавца</S.MainH2>
+              </S.ModalHeader>
               <div>
                 <S.ProfileSellContent>
                   <S.ProfileSellSeller>

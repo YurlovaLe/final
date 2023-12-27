@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 
 import { useLoginUserMutation } from "../../api/authApi";
 import { setUser } from "../../slices/authSlice";
+import { Footer } from "../../components/Footer/Footer";
 
 import * as S from "./SignInPage.styles";
 
@@ -87,6 +88,7 @@ export const SignInPage = () => {
               </S.ModalBtnGroup>
             </S.ModalFormInner>
             <S.ErrorForm>{formError}</S.ErrorForm>
+            <Footer />
           </S.ModalFormLogin>
         </S.ModalBlock>
       </S.ContainerEnter>

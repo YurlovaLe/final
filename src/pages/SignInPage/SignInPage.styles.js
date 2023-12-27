@@ -11,7 +11,7 @@ export const ContainerEnter = styled.div`
   height: 100vh;
   margin: 0 auto;
   position: relative;
-  background-color: #F4F5F6;
+  background-color: #FFF;
 `
 
 export const ModalBlock = styled.div`
@@ -211,8 +211,6 @@ export const ModalBtnEnter = styled.button`
 
   @media screen and (max-width: 768px) {
     height: 46px;
-    margin-top: 40px;
-    margin-bottom: 10px;
     border: none;
   }
 `

@@ -23,9 +23,12 @@ export const Reviews = ({ onFormClose, reviews, isAllowed, productId }) => {
       <S.ContainerBg>
         <S.ModalBlock>
           <S.ModalContent>
-            <S.ModalTitle>Отзывы о товаре</S.ModalTitle>
+            <S.ModalHeader>
+              <S.ModalBack onClick={onFormClose}/>
+              <S.ModalTitle>Отзывы о товаре</S.ModalTitle>
+            </S.ModalHeader>
             <S.ModalBtnClose onClick={onFormClose} type="button">
-              <S.ModalBtnCloseLine></S.ModalBtnCloseLine>
+                <S.ModalBtnCloseLine></S.ModalBtnCloseLine>
             </S.ModalBtnClose>
             <S.ModalScroll>
               {isAllowed && (

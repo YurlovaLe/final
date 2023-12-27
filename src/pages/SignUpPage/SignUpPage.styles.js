@@ -11,7 +11,7 @@ export const ContainerSignup = styled.div`
   height: 100vh;
   margin: 0 auto;
   position: relative;
-  background-color: #F4F5F6;
+  background-color: #FFF;
 `
 
 export const ModalBlock = styled.div`
@@ -131,7 +131,6 @@ export const ModalInput = styled.input`
     border: 1px solid #D9D9D9;
     border-radius: 30px;
     padding: 9px 19px;
-    margin-bottom: 14px;
 
     &::-webkit-input-placeholder {
       font-size: 14px;
@@ -184,7 +183,6 @@ export const ModalBtnSignupEnt = styled.button`
   @media screen and (max-width: 768px) {
     height: 46px;
     border: none;
-    margin-top: 26px;
   }
 `
 

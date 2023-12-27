@@ -20,7 +20,10 @@ export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = ''
       <S.ContainerBg>
         <S.ModalBlock>
           <S.ModalContent>
-            <S.ModalTitle>{text}</S.ModalTitle>
+            <S.ModalHeader>
+              <S.ModalBack onClick={onFormClose}/>
+              <S.ModalTitle>{text}</S.ModalTitle>
+            </S.ModalHeader>
             <S.ModalBtnClose onClick={onFormClose}>
               <S.ModalBtnCloseLine></S.ModalBtnCloseLine>
             </S.ModalBtnClose>

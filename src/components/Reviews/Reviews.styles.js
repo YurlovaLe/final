@@ -67,39 +67,42 @@ export const ModalContent = styled.div`
   }
 `
 
-export const ModalTitle = styled.h3`
-  font-size: 32px;
-  line-height: 46px;
-  font-weight: 500;
-  color: #000000;
+export const ModalHeader = styled.div`
+  display: flex;
+  align-items: center;
   margin-bottom: 15px;
+`
 
-  &:hover::before {
+export const ModalBack = styled.div`
+  display: none;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid #000000;
+  border-left: 2px solid #000000;
+  transform: rotate(-45deg);
+  cursor: pointer;
+
+  &:hover {
     border-top: 2px solid #0080C1;
     border-left: 2px solid #0080C1;
   }
 
   @media screen and (max-width: 600px) {
+    display: block;
+  }
+`
+
+export const ModalTitle = styled.h3`
+  font-size: 32px;
+  line-height: 46px;
+  font-weight: 500;
+  color: #000000;
+
+  @media screen and (max-width: 600px) {
     font-size: 24px;
     line-height: 29px;
-    padding: 0 0 0 26px;
+    padding: 0 0 0 15px;
     position: relative;
-    
-    &::before {
-      content: "";
-      display: block;
-      width: 12px;
-      height: 12px;
-      background-color: transparent;
-      border-top: 2px solid #000000;
-      border-left: 2px solid #000000;
-      -webkit-transform: rotate(-45deg);
-              transform: rotate(-45deg);
-      position: absolute;
-      top: 9px;
-      left: 0;
-      cursor: pointer;
-    }
   }
 `
 
@@ -107,7 +110,7 @@ export const ModalBtnClose = styled.div`
   width: 23px;
   height: 23px;
   position: absolute;
-  top: 47px;
+  top: 35px;
   right: 50px;
   z-index: 3;
   cursor: pointer;
@@ -325,7 +328,7 @@ export const FormNewArtArea = styled.textarea`
 export const SubmitButton = styled(Button)`
   margin-top: 30px;
   max-width: 180px;
-  
+
   @media screen and (max-width: 600px) {
     margin-top: 10px;
     max-width: 100%;

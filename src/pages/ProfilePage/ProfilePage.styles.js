@@ -252,7 +252,7 @@ export const SettingsForm = styled.form`
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
 
-  .@media screen and (max-width: 620px) {
+  @media screen and (max-width: 620px) {
     width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;

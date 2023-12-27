@@ -111,6 +111,10 @@ export const ProductPage = ({ isAllowed }) => {
     return;
   }
 
+  const chooseImage = (index) => {
+    return (product.images[index] ? `http://localhost:8090/${product.images[index].url}` : chosenImage)
+  }
+
   return (
     <S.Wrapper>
       <S.Container>
@@ -122,6 +126,7 @@ export const ProductPage = ({ isAllowed }) => {
           <div>
             <S.ArticContent>
               <S.ArticleLeft>
+                <S.ModalBack onClick={() => navigate(-1)}/>
                 <S.ArticleFillImg>
                   <S.ArticleImg>
                     <S.ArticleImageImg src={chosenImage} alt="" />
@@ -140,11 +145,11 @@ export const ProductPage = ({ isAllowed }) => {
                     ))}
                   </S.ArticleImgBar>
                   <S.ArticleImgBarMob>
-                    <S.ImgBarMobCircleActive></S.ImgBarMobCircleActive>
-                    <S.ImgBarMobCircle></S.ImgBarMobCircle>
-                    <S.ImgBarMobCircle></S.ImgBarMobCircle>
-                    <S.ImgBarMobCircle></S.ImgBarMobCircle>
-                    <S.ImgBarMobCircle></S.ImgBarMobCircle>
+                    <S.ImgBarMobCircleActive onClick={() => setChosenImage(chooseImage(0))}></S.ImgBarMobCircleActive>
+                    <S.ImgBarMobCircle onClick={() => setChosenImage(chooseImage(1))}></S.ImgBarMobCircle>
+                    <S.ImgBarMobCircle onClick={() => setChosenImage(chooseImage(2))}></S.ImgBarMobCircle>
+                    <S.ImgBarMobCircle onClick={() => setChosenImage(chooseImage(3))}></S.ImgBarMobCircle>
+                    <S.ImgBarMobCircle onClick={() => setChosenImage(chooseImage(4))}></S.ImgBarMobCircle>
                   </S.ArticleImgBarMob>
                 </S.ArticleFillImg>
               </S.ArticleLeft>
@@ -170,7 +175,7 @@ export const ProductPage = ({ isAllowed }) => {
                       <Button onClick={() => handleDeleteProduct()}>Снять с публикации</Button>
                     </S.ArticleBtnBlock>
                   ) : (
-                    <Button onClick={() => setPhoneButton("show")}>
+                    <S.PhoneButton onClick={() => setPhoneButton("show")}>
                       {phoneButton ? "Телефон" : "Показать телефон"}{" "}
                       <div>
                         {" "}
@@ -178,7 +183,7 @@ export const ProductPage = ({ isAllowed }) => {
                           ? product.user.phone
                           : `${product.user.phone.slice(0, 5)} XXXXXXX`}{" "}
                       </div>
-                    </Button>
+                    </S.PhoneButton>
                   )}
                   <S.ArticleAuthor>
                     <S.AuthorImage>

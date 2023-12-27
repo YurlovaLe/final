@@ -5,17 +5,17 @@ export const Footer = () => {
     <S.Footer>
       <S.FooterContainer>
         <S.FooterImg>
-          <a href="/#" target="self">
+          <a href="/">
             <S.FooterImageImg src="/img/icon_01.png" alt="home"/>
           </a>
         </S.FooterImg>
         <S.FooterImg>
-          <a href="/#" target="self">
+          <a href="/new-product">
             <S.FooterImageImg src="/img/icon_02.png" alt="home"/>
           </a>
         </S.FooterImg>
         <S.FooterImg>
-          <a href="/#" target="self">
+          <a href="/profile">
             <S.FooterImageImg src="/img/icon_03.png" alt="home"/>
           </a>
         </S.FooterImg>
