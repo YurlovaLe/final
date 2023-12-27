@@ -100,6 +100,7 @@ export const ProductPage = ({ isAllowed }) => {
             previousTitle={product.title}
             previousDescription={product.description}
             previousPrice={product.price}
+            previousImages={product.images}
           />
         );
       default:

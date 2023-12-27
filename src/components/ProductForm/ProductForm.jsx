@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import * as S from "./ProductForm.styles";
 
-export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = '', previousDescription='', previousPrice }) => {
+export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = '', previousDescription='', previousPrice, previousImages }) => {
 
   const [title, setTitle] = useState(previousTitle);
   const [description, setDescription] = useState(previousDescription);
   const [price, setPrice] = useState(previousPrice);
   const [images, setImages] = useState([]);
   const [imageSource, setImageSource] = useState(null);
+  const imageUrl = previousImages[0] ? `http://localhost:8090/${previousImages[0].url}` : '';
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -70,7 +71,7 @@ export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = ''
                 <S.FormNewArtBarImg htmlFor="photo" href="#/" target="_self">
                   <S.SettingsPhotoLoader onChange={(event) => setImages(event.target.files)} id="photo" type="file" name="photo" accept="image/png, image/jpeg" />
                   <S.FormNewArtImage>
-                    <S.FormNewArtImageImg src={imageSource} alt="" />
+                    <S.FormNewArtImageImg src={imageSource || imageUrl} alt="" />
                     <S.FormNewArtImgCover></S.FormNewArtImgCover>
                   </S.FormNewArtImage>
                   <S.FormNewArtImage>
