@@ -1,21 +1,30 @@
 import { useEffect, useState } from "react";
 import * as S from "./ProductForm.styles";
 
-export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = '', previousDescription='', previousPrice, previousImages }) => {
-
+export const ProductForm = ({
+  text,
+  onFormClose,
+  onFormSubmit,
+  previousTitle = "",
+  previousDescription = "",
+  previousPrice,
+  previousImages,
+}) => {
   const [title, setTitle] = useState(previousTitle);
   const [description, setDescription] = useState(previousDescription);
   const [price, setPrice] = useState(previousPrice);
   const [images, setImages] = useState([]);
   const [imageSource, setImageSource] = useState(null);
-  const imageUrl = previousImages[0] ? `http://localhost:8090/${previousImages[0].url}` : '';
+  const imageUrl =
+    previousImages && previousImages[0]
+      ? `http://localhost:8090/${previousImages[0].url}`
+      : "";
 
   const submitHandler = (event) => {
     event.preventDefault();
-    const data = {title, description, price, images}
+    const data = { title, description, price, images };
     onFormSubmit(data);
-    
-  }
+  };
 
   useEffect(() => {
     const fileReader = new FileReader();
@@ -23,9 +32,9 @@ export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = ''
       const imageSrc = fileReader.result;
       console.log(imageSrc);
       setImageSource(imageSrc);
-    }
+    };
     images.length && fileReader.readAsDataURL(images[0]);
-  }, [images])
+  }, [images]);
 
   return (
     <S.Wrapper>
@@ -33,7 +42,7 @@ export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = ''
         <S.ModalBlock>
           <S.ModalContent>
             <S.ModalHeader>
-              <S.ModalBack onClick={onFormClose}/>
+              <S.ModalBack onClick={onFormClose} />
               <S.ModalTitle>{text}</S.ModalTitle>
             </S.ModalHeader>
             <S.ModalBtnClose onClick={onFormClose}>
@@ -69,9 +78,18 @@ export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = ''
                   <S.FormNewArtPSpan>не более 5 фотографий</S.FormNewArtPSpan>
                 </S.FormNewArtP>
                 <S.FormNewArtBarImg htmlFor="photo" href="#/" target="_self">
-                  <S.SettingsPhotoLoader onChange={(event) => setImages(event.target.files)} id="photo" type="file" name="photo" accept="image/png, image/jpeg" />
+                  <S.SettingsPhotoLoader
+                    onChange={(event) => setImages(event.target.files)}
+                    id="photo"
+                    type="file"
+                    name="photo"
+                    accept="image/png, image/jpeg"
+                  />
                   <S.FormNewArtImage>
-                    <S.FormNewArtImageImg src={imageSource || imageUrl} alt="" />
+                    <S.FormNewArtImageImg
+                      src={imageSource || imageUrl}
+                      alt=""
+                    />
                     <S.FormNewArtImgCover></S.FormNewArtImgCover>
                   </S.FormNewArtImage>
                   <S.FormNewArtImage>
@@ -101,7 +119,9 @@ export const ProductForm = ({text, onFormClose, onFormSubmit, previousTitle = ''
                   value={price}
                   onChange={(event) => setPrice(event.target.value)}
                 />
-                <S.FormNewArtInputPriceCover>&#x20BD;</S.FormNewArtInputPriceCover>
+                <S.FormNewArtInputPriceCover>
+                  &#x20BD;
+                </S.FormNewArtInputPriceCover>
               </S.BlockPrice>
               <S.SubmitButton>Опубликовать</S.SubmitButton>
             </S.ModalFormNewArt>

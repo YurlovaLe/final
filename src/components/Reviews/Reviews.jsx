@@ -61,7 +61,7 @@ export const Reviews = ({ onFormClose, reviews, isAllowed, productId }) => {
                           publicationDate(review.created_on).length - 8
                         )}
                         text={review.text}
-                        img={review.avatar}
+                        img={review.author.avatar}
                       />
                     ))
                   : "Здесь пока нет отзывов"}

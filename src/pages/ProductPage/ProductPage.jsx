@@ -70,7 +70,7 @@ export const ProductPage = ({ isAllowed }) => {
 
   useEffect(() => {
     if (!isProductLoading && !isCommentsLoading) {
-      const productImage = dataProduct.images[0]?.url;
+      const productImage = dataProduct.images[0]?.url;      
 
       setProduct(dataProduct);
       setComments(dataComments);
