@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { clearUser } from "../../slices/authSlice";
 import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { Footer } from "../../components/Footer/Footer";
 import { Header } from "../../components/Header/Header";
@@ -17,6 +19,7 @@ import * as S from "./ProfilePage.styles";
 export const ProfilePage = ({ isAllowed }) => {
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState({});
+  const dispatch = useDispatch();
 
   const { data: productsList = [] } = useGetPersonalProductsQuery();
   const [updateUser] = useUpdateUserMutation();
@@ -24,7 +27,9 @@ export const ProfilePage = ({ isAllowed }) => {
 
   const { data: user = [] } = useGetUserQuery();
 
-  const handleUpdateUserInfo = async () => {
+  const handleUpdateUserInfo = async (event) => {
+    event.preventDefault();
+
     await updateUser({
       name: formValues.fieldName,
       surname: formValues.fieldSurname,
@@ -38,6 +43,8 @@ export const ProfilePage = ({ isAllowed }) => {
     data.append("file", event.target.files[0]);
     await updateUserPhoto(data);
   };
+
+  console.log(user);
 
   return (
     <S.Wrapper>
@@ -162,6 +169,14 @@ export const ProfilePage = ({ isAllowed }) => {
                         </S.SettingsDiv>
 
                         <S.SettingsSubmit>Сохранить</S.SettingsSubmit>
+                        <S.SettingsSubmit
+                          type="button"
+                          onClick={() => {
+                            dispatch(clearUser());
+                          }}
+                        >
+                          Выйти
+                        </S.SettingsSubmit>
                       </S.SettingsForm>
                     </S.SettingsRight>
                   </S.ProfileSettings>

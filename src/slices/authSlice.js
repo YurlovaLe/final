@@ -36,6 +36,8 @@ export const authSlice = createSlice({
       state.email = '';
       state.accessToken = '';
       state.refreshToken = '';
+
+      window.location.reload();
     },
   },
 });

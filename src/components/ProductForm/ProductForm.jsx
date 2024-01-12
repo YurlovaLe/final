@@ -30,7 +30,6 @@ export const ProductForm = ({
     const fileReader = new FileReader();
     fileReader.onload = () => {
       const imageSrc = fileReader.result;
-      console.log(imageSrc);
       setImageSource(imageSrc);
     };
     images.length && fileReader.readAsDataURL(images[0]);
